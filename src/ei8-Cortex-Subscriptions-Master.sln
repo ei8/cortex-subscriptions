@@ -17,6 +17,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Model.Test", "test\D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "In.Api", "main\Port.Adapter\In\Api\In.Api.csproj", "{3E423A66-6CF1-40C9-8B79-7CCF06E43495}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2725C408-8076-4BC9-AD46-C0781BEB41D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IO", "IO", "{978807E3-75B3-4665-BA42-D97194428421}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{4F60AA9F-6CA3-4E9C-9540-A68AE34B9F0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLite", "main\Port.Adapter\IO\Persistence\SQLite\SQLite.csproj", "{81552235-BE3A-4801-B490-74DF1738F050}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "..\..\cortex-subscriptions-common\src\main\Common.csproj", "{817DDCFA-56D1-4EBA-81F5-5FE9495A10B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +53,18 @@ Global
 		{3E423A66-6CF1-40C9-8B79-7CCF06E43495}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E423A66-6CF1-40C9-8B79-7CCF06E43495}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E423A66-6CF1-40C9-8B79-7CCF06E43495}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2725C408-8076-4BC9-AD46-C0781BEB41D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2725C408-8076-4BC9-AD46-C0781BEB41D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2725C408-8076-4BC9-AD46-C0781BEB41D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2725C408-8076-4BC9-AD46-C0781BEB41D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81552235-BE3A-4801-B490-74DF1738F050}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81552235-BE3A-4801-B490-74DF1738F050}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81552235-BE3A-4801-B490-74DF1738F050}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81552235-BE3A-4801-B490-74DF1738F050}.Release|Any CPU.Build.0 = Release|Any CPU
+		{817DDCFA-56D1-4EBA-81F5-5FE9495A10B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{817DDCFA-56D1-4EBA-81F5-5FE9495A10B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{817DDCFA-56D1-4EBA-81F5-5FE9495A10B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{817DDCFA-56D1-4EBA-81F5-5FE9495A10B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +72,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D5191DBF-8AA3-41B0-8CBA-068CE9F1B881} = {24D6B38C-733D-4B1F-93C7-FBA2D13D3718}
 		{3E423A66-6CF1-40C9-8B79-7CCF06E43495} = {D5191DBF-8AA3-41B0-8CBA-068CE9F1B881}
+		{978807E3-75B3-4665-BA42-D97194428421} = {24D6B38C-733D-4B1F-93C7-FBA2D13D3718}
+		{4F60AA9F-6CA3-4E9C-9540-A68AE34B9F0C} = {978807E3-75B3-4665-BA42-D97194428421}
+		{81552235-BE3A-4801-B490-74DF1738F050} = {4F60AA9F-6CA3-4E9C-9540-A68AE34B9F0C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C5E7B24F-6EE6-48A2-A996-5075DDAF0A4B}

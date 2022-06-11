@@ -1,34 +1,42 @@
+using ei8.Cortex.Subscriptions.Application;
+using ei8.Cortex.Subscriptions.Application.Interface;
+using ei8.Cortex.Subscriptions.Common;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddSingleton<IAvatarRepository, AvatarRepositoryMock>();
+builder.Services.AddSingleton<IUserRepository, UserRepositoryMock>();
+builder.Services.AddSingleton<ISubscriptionRepository, SubscriptionRepositoryMock>();
+builder.Services.AddSingleton<IBrowserReceiverRepository, BrowserReceiverRepositoryMock>();
+builder.Services.AddSingleton<ISubscriptionService, SubscriptionService>();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
+}
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+app.MapPost("/subscriptions/add", async (BrowserSubscriptionInfo request, ISubscriptionService service) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    await service.AddSubscriptionForBrowserAsync(request);
+    return Results.Ok();
+});
 
-app.MapGet("/weatherforecast", () =>
+// TODO: remove later. for debugging only
+app.MapGet("/subscriptions/{userNeuronId}", async (Guid userNeuronId, ISubscriptionService service) =>
 {
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-       new WeatherForecast
-       (
-           DateTime.Now.AddDays(index),
-           Random.Shared.Next(-20, 55),
-           summaries[Random.Shared.Next(summaries.Length)]
-       ))
-        .ToArray();
-    return forecast;
+    var subs = await service.GetSubscriptionsForUserAsync(userNeuronId);
+    return Results.Ok(subs);
 });
 
 app.Run();
-
-internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

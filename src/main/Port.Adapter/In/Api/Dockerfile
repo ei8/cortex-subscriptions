@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["main/Port.Adapter/In/Api/In.Api/In.Api.csproj", "main/Port.Adapter/In/Api/In.Api/"]
-RUN dotnet restore "main/Port.Adapter/In/Api/In.Api/In.Api.csproj"
+COPY ["main/Port.Adapter/In/Api/In.Api.csproj", "main/Port.Adapter/In/Api/"]
+RUN dotnet restore "main/Port.Adapter/In/Api/In.Api.csproj"
 COPY . .
-WORKDIR "/src/main/Port.Adapter/In/Api/In.Api"
+WORKDIR "/src/main/Port.Adapter/In/Api"
 RUN dotnet build "In.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
