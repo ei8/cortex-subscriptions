@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace ei8.Cortex.Subscriptions.Application.Interface
+namespace ei8.Cortex.Subscriptions.Application.Interface.Repository
 {
     public interface IUserRepository
     {

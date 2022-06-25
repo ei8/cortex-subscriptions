@@ -1,15 +1,17 @@
 using ei8.Cortex.Subscriptions.Application;
-using ei8.Cortex.Subscriptions.Application.Interface;
+using ei8.Cortex.Subscriptions.Application.Interface.Repository;
+using ei8.Cortex.Subscriptions.Application.Interface.Service;
 using ei8.Cortex.Subscriptions.Common;
+using ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddSingleton<IAvatarRepository, AvatarRepositoryMock>();
-builder.Services.AddSingleton<IUserRepository, UserRepositoryMock>();
-builder.Services.AddSingleton<ISubscriptionRepository, SubscriptionRepositoryMock>();
-builder.Services.AddSingleton<IBrowserReceiverRepository, BrowserReceiverRepositoryMock>();
-builder.Services.AddSingleton<ISubscriptionService, SubscriptionService>();
+builder.Services.AddTransient<IAvatarRepository, AvatarRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IBrowserReceiverRepository, BrowserReceiverRepository>();
+builder.Services.AddTransient<ISubscriptionRepository, SubscriptionRepository>();
+builder.Services.AddTransient<ISubscriptionService, SubscriptionService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -26,7 +28,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/subscriptions/add", async (BrowserSubscriptionInfo request, ISubscriptionService service) =>
+app.MapPost("/subscriptions", async (BrowserSubscriptionInfo request, ISubscriptionService service) =>
 {
     await service.AddSubscriptionForBrowserAsync(request);
     return Results.Ok();

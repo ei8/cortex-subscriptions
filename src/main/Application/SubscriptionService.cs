@@ -1,4 +1,5 @@
-﻿using ei8.Cortex.Subscriptions.Application.Interface;
+﻿using ei8.Cortex.Subscriptions.Application.Interface.Repository;
+using ei8.Cortex.Subscriptions.Application.Interface.Service;
 using ei8.Cortex.Subscriptions.Common;
 using ei8.Cortex.Subscriptions.Domain.Model;
 using System;
