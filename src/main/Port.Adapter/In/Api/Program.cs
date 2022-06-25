@@ -2,11 +2,13 @@ using ei8.Cortex.Subscriptions.Application;
 using ei8.Cortex.Subscriptions.Application.Interface.Repository;
 using ei8.Cortex.Subscriptions.Application.Interface.Service;
 using ei8.Cortex.Subscriptions.Common;
+using ei8.Cortex.Subscriptions.In.Api.Settings;
 using ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddTransient<ISettingsService, EnvironmentSettingsService>();
 builder.Services.AddTransient<IAvatarRepository, AvatarRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IBrowserReceiverRepository, BrowserReceiverRepository>();

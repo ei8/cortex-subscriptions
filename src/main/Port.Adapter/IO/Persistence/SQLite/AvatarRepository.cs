@@ -1,4 +1,5 @@
 ﻿using ei8.Cortex.Subscriptions.Application.Interface.Repository;
+using ei8.Cortex.Subscriptions.Application.Interface.Service;
 using ei8.Cortex.Subscriptions.Domain.Model;
 using ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite.Models;
 using SQLite;
@@ -9,9 +10,9 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
     {
         private readonly SQLiteAsyncConnection connection;
 
-        public AvatarRepository()
+        public AvatarRepository(ISettingsService settings)
         {
-            connection = new SQLiteAsyncConnection(@"C:\Users\Junvic\Documents\avatar-server-pack\avatars\prod\sample\subscriptions.db");
+            connection = new SQLiteAsyncConnection(settings.SubscriptionsDatabasePath);
         }
 
         public async Task<Avatar> GetOrAddAsync(string url)

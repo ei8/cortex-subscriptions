@@ -1,13 +1,16 @@
 version: '3.4'
 
 services:
-  in.api:
+  cortex.subscriptions.in.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
+    env_file:
+      - ./var.env
     ports:
       - "80"
       - "443"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - /C/Users/Junvic/Documents/avatar-server-pack/avatars/prod/sample:/C/db
