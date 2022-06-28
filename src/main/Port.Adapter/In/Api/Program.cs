@@ -1,7 +1,7 @@
 using ei8.Cortex.Subscriptions.Application;
-using ei8.Cortex.Subscriptions.Application.Interface.Repository;
 using ei8.Cortex.Subscriptions.Application.Interface.Service;
 using ei8.Cortex.Subscriptions.Common;
+using ei8.Cortex.Subscriptions.Domain.Model;
 using ei8.Cortex.Subscriptions.In.Api.Settings;
 using ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite;
 
@@ -13,7 +13,7 @@ builder.Services.AddTransient<IAvatarRepository, AvatarRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IBrowserReceiverRepository, BrowserReceiverRepository>();
 builder.Services.AddTransient<ISubscriptionRepository, SubscriptionRepository>();
-builder.Services.AddTransient<ISubscriptionService, SubscriptionService>();
+builder.Services.AddTransient<ISubscriptionApplicationService, SubscriptionApplicationService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -30,16 +30,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/subscriptions", async (BrowserSubscriptionInfo request, ISubscriptionService service) =>
+app.MapPost("/subscriptions", async (BrowserSubscriptionInfo request, ISubscriptionApplicationService service) =>
 {
     await service.AddSubscriptionForBrowserAsync(request);
     return Results.Ok();
 });
 
 // TODO: remove later. for debugging only
-app.MapGet("/subscriptions/{userNeuronId}", async (Guid userNeuronId, ISubscriptionService service) =>
+app.MapGet("/subscriptions/{userNeuronId}", async (Guid userNeuronId, ISubscriptionApplicationService service) =>
 {
-    var subs = await service.GetSubscriptionsForUserAsync(userNeuronId);
+    var subs = await service.GetAllByUserIdAsync(userNeuronId);
     return Results.Ok(subs);
 });
 

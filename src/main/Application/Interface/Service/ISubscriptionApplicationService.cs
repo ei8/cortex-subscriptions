@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ei8.Cortex.Subscriptions.Application.Interface.Service
 {
-    public interface ISubscriptionService
+    public interface ISubscriptionApplicationService
     {
         Task AddSubscriptionForBrowserAsync(BrowserSubscriptionInfo subscriptionInfo);
 
@@ -15,6 +15,6 @@ namespace ei8.Cortex.Subscriptions.Application.Interface.Service
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<IList<Subscription>> GetSubscriptionsForUserAsync(Guid userId);
+        Task<IList<Subscription>> GetAllByUserIdAsync(Guid userId);
     }
 }

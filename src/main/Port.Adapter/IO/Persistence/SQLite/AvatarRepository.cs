@@ -1,5 +1,4 @@
-﻿using ei8.Cortex.Subscriptions.Application.Interface.Repository;
-using ei8.Cortex.Subscriptions.Application.Interface.Service;
+﻿using ei8.Cortex.Subscriptions.Application.Interface.Service;
 using ei8.Cortex.Subscriptions.Domain.Model;
 using ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite.Models;
 using SQLite;

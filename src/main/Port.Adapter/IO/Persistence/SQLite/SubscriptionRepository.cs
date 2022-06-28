@@ -1,5 +1,4 @@
-﻿using ei8.Cortex.Subscriptions.Application.Interface.Repository;
-using ei8.Cortex.Subscriptions.Application.Interface.Service;
+﻿using ei8.Cortex.Subscriptions.Application.Interface.Service;
 using ei8.Cortex.Subscriptions.Domain.Model;
 using ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite.Extensions;
 using ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite.Models;
@@ -28,7 +27,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
             await connection.InsertAsync(model);
         }
 
-        public async Task<IList<Subscription>> GetAllForUserIdAsync(Guid userId)
+        public async Task<IList<Subscription>> GetAllByUserIdAsync(Guid userId)
         {
             var subscriptions = await connection.GetAllWithChildren<SubscriptionModel>(s => s.UserId == userId, recursive: true);
 

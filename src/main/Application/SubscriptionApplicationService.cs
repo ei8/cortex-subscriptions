@@ -1,5 +1,4 @@
-﻿using ei8.Cortex.Subscriptions.Application.Interface.Repository;
-using ei8.Cortex.Subscriptions.Application.Interface.Service;
+﻿using ei8.Cortex.Subscriptions.Application.Interface.Service;
 using ei8.Cortex.Subscriptions.Common;
 using ei8.Cortex.Subscriptions.Domain.Model;
 using System;
@@ -8,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace ei8.Cortex.Subscriptions.Application
 {
-    public class SubscriptionService : ISubscriptionService
+    public class SubscriptionApplicationService : ISubscriptionApplicationService
     {
         private readonly IAvatarRepository avatarRepository;
         private readonly ISubscriptionRepository subscriptionRepository;
         private readonly IUserRepository userRepository;
         private readonly IBrowserReceiverRepository browserReceiverRepository;
 
-        public SubscriptionService(IAvatarRepository avatarRepository, 
+        public SubscriptionApplicationService(IAvatarRepository avatarRepository, 
             ISubscriptionRepository subscriptionRepository,
             IUserRepository userRepository,
             IBrowserReceiverRepository browserReceiverRepository)
@@ -53,9 +52,9 @@ namespace ei8.Cortex.Subscriptions.Application
              await subscriptionRepository.AddAsync(subscription);
         }
 
-        public async Task<IList<Subscription>> GetSubscriptionsForUserAsync(Guid userId)
+        public async Task<IList<Subscription>> GetAllByUserIdAsync(Guid userId)
         {
-            return await subscriptionRepository.GetAllForUserIdAsync(userId);  
+            return await subscriptionRepository.GetAllByUserIdAsync(userId);  
         }
     }
 }
