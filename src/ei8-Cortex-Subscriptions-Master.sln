@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "In", "In", "{D5191DBF-8AA3-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "main\Application\Application.csproj", "{6B8975CD-5D8E-4D32-AC34-58061EC0E3C8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Model", "main\Domain.Model\Domain.Model\Domain.Model.csproj", "{F594FB07-4324-4B2A-A419-B423E30A0E61}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Test", "test\Application\Application.Test.csproj", "{E01ABFFF-D62B-4256-B308-C16A129EFBB3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Model.Test", "test\Domain.Model\Domain.Model.Test.csproj", "{D30819F9-6BFD-40B2-A1AD-49216C010A07}"
@@ -23,9 +21,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IO", "IO", "{978807E3-75B3-
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{4F60AA9F-6CA3-4E9C-9540-A68AE34B9F0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLite", "main\Port.Adapter\IO\Persistence\SQLite\SQLite.csproj", "{81552235-BE3A-4801-B490-74DF1738F050}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SQLite", "main\Port.Adapter\IO\Persistence\SQLite\SQLite.csproj", "{81552235-BE3A-4801-B490-74DF1738F050}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "..\..\cortex-subscriptions-common\src\main\Common.csproj", "{817DDCFA-56D1-4EBA-81F5-5FE9495A10B7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Model", "main\Domain.Model\Domain.Model.csproj", "{7CD57BE5-09E7-48D3-AA49-4203AE02403A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +37,6 @@ Global
 		{6B8975CD-5D8E-4D32-AC34-58061EC0E3C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B8975CD-5D8E-4D32-AC34-58061EC0E3C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B8975CD-5D8E-4D32-AC34-58061EC0E3C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F594FB07-4324-4B2A-A419-B423E30A0E61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F594FB07-4324-4B2A-A419-B423E30A0E61}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F594FB07-4324-4B2A-A419-B423E30A0E61}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F594FB07-4324-4B2A-A419-B423E30A0E61}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E01ABFFF-D62B-4256-B308-C16A129EFBB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E01ABFFF-D62B-4256-B308-C16A129EFBB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E01ABFFF-D62B-4256-B308-C16A129EFBB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -65,6 +61,10 @@ Global
 		{817DDCFA-56D1-4EBA-81F5-5FE9495A10B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{817DDCFA-56D1-4EBA-81F5-5FE9495A10B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{817DDCFA-56D1-4EBA-81F5-5FE9495A10B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CD57BE5-09E7-48D3-AA49-4203AE02403A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CD57BE5-09E7-48D3-AA49-4203AE02403A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CD57BE5-09E7-48D3-AA49-4203AE02403A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CD57BE5-09E7-48D3-AA49-4203AE02403A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
