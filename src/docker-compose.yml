@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  cortex.subscriptions.in.api:
+    image: ${DOCKER_REGISTRY-}inapi
+    build:
+      context: .
+      dockerfile: main/Port.Adapter/In/Api/Dockerfile
