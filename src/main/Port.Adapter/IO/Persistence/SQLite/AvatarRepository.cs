@@ -1,5 +1,6 @@
 ﻿using ei8.Cortex.Subscriptions.Application.Interface.Service;
 using ei8.Cortex.Subscriptions.Domain.Model;
+using ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite.Extensions;
 using ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite.Models;
 using SQLite;
 
@@ -12,6 +13,18 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
         public AvatarRepository(ISettingsService settings)
         {
             connection = new SQLiteAsyncConnection(settings.SubscriptionsDatabasePath);
+        }
+
+        public async Task<IList<Avatar>> GetAll()
+        {
+            var rows = await connection.GetAllWithChildren<AvatarModel>(recursive: true);
+
+            return rows.Select(r => new Avatar()
+            {
+                Hash = r.Hash,
+                Id = r.Id,
+                Url = r.Url
+            }).ToList();
         }
 
         public async Task<Avatar> GetOrAddAsync(string url)
@@ -35,6 +48,17 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
                 Id = avatar.Id,
                 Url = avatar.Url
             };
+        }
+
+        public async Task UpdateAsync(Avatar avatar)
+        {
+            var existingAvatar = await connection.Table<AvatarModel>().FirstOrDefaultAsync(t => t.Url == avatar.Url);
+
+            if (existingAvatar != null)
+            {
+                existingAvatar.Hash = avatar.Hash;
+                await connection.UpdateAsync(existingAvatar);
+            }
         }
     }
 }

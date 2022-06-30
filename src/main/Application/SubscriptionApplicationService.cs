@@ -56,5 +56,12 @@ namespace ei8.Cortex.Subscriptions.Application
         {
             return await subscriptionRepository.GetAllByUserIdAsync(userId);  
         }
+
+        public Task NotifySubscribers(Avatar avatar)
+        {
+            // TODO: integrate web push
+            return Task.CompletedTask;
+            //throw new NotImplementedException();
+        }
     }
 }

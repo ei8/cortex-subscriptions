@@ -2,7 +2,9 @@ using ei8.Cortex.Subscriptions.Application;
 using ei8.Cortex.Subscriptions.Application.Interface.Service;
 using ei8.Cortex.Subscriptions.Common;
 using ei8.Cortex.Subscriptions.Domain.Model;
+using ei8.Cortex.Subscriptions.In.Api.BackgroundServices;
 using ei8.Cortex.Subscriptions.In.Api.Settings;
+using ei8.Cortex.Subscriptions.IO.Http;
 using ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,9 +16,16 @@ builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IBrowserReceiverRepository, BrowserReceiverRepository>();
 builder.Services.AddTransient<ISubscriptionRepository, SubscriptionRepository>();
 builder.Services.AddTransient<ISubscriptionApplicationService, SubscriptionApplicationService>();
+builder.Services.AddTransient<IPollingApplicationService, PollingApplicationService>();
+builder.Services.AddTransient<IPayloadHashService, HttpPayloadHashService>();
+builder.Services.AddHttpClient();
 
+// add swagger UI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// add background services
+builder.Services.AddHostedService<AvatarPollingBackgroundService>();
 
 var app = builder.Build();
 

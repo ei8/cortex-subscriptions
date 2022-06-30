@@ -3,5 +3,6 @@
     public interface ISettingsService
     {
         string SubscriptionsDatabasePath { get; set; }
+        int SubscriptionsPollingIntervalSeconds { get; set; }
     }
 }
