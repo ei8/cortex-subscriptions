@@ -1,5 +1,4 @@
-﻿using ei8.Cortex.Subscriptions.Application.Interface.Service;
-using ei8.Cortex.Subscriptions.Domain.Model;
+﻿using ei8.Cortex.Subscriptions.Domain.Model;
 using ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite.Models;
 using SQLite;
 
@@ -11,7 +10,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
 
         public BrowserReceiverRepository(ISettingsService settings)
         {
-            connection = new SQLiteAsyncConnection(settings.SubscriptionsDatabasePath);
+            connection = new SQLiteAsyncConnection(settings.DatabasePath);
         }
 
         public async Task AddAsync(BrowserReceiver receiver)

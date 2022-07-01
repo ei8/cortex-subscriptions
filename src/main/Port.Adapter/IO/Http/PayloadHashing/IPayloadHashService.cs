@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace ei8.Cortex.Subscriptions.IO.Http
+namespace ei8.Cortex.Subscriptions.IO.Http.PayloadHashing
 {
     public interface IPayloadHashService
     {

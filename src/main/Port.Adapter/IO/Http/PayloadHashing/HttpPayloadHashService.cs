@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ei8.Cortex.Subscriptions.IO.Http
+namespace ei8.Cortex.Subscriptions.IO.Http.PayloadHashing
 {
     public class HttpPayloadHashService : IPayloadHashService
     {
@@ -19,7 +19,7 @@ namespace ei8.Cortex.Subscriptions.IO.Http
         {
             this.httpClientFactory = httpClientFactory;
             this.logger = logger;
-            this.exponentialRetry = Policy.Handle<Exception>()
+            exponentialRetry = Policy.Handle<Exception>()
                                           .WaitAndRetryAsync(
                                               3,
                                               attempt => TimeSpan.FromMilliseconds(100 * Math.Pow(2, attempt)),
@@ -37,7 +37,7 @@ namespace ei8.Cortex.Subscriptions.IO.Http
         {
             using (var client = httpClientFactory.CreateClient())
             {
-                var response = await exponentialRetry.ExecuteAsync<HttpResponseMessage>(async () =>
+                var response = await exponentialRetry.ExecuteAsync(async () =>
                 {
                     return await client.GetAsync(url);
                 });
@@ -58,7 +58,7 @@ namespace ei8.Cortex.Subscriptions.IO.Http
             var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(payload));
 
             // Get hex representation of each byte from the hash value
-            foreach (var b in hash) 
+            foreach (var b in hash)
             {
                 hashString.Append(b.ToString("x2"));
             }

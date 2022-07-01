@@ -1,6 +1,8 @@
 ﻿using ei8.Cortex.Subscriptions.Application.Interface.Service;
 using ei8.Cortex.Subscriptions.Common;
 using ei8.Cortex.Subscriptions.Domain.Model;
+using ei8.Cortex.Subscriptions.IO.Http.Notifications;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,16 +15,22 @@ namespace ei8.Cortex.Subscriptions.Application
         private readonly ISubscriptionRepository subscriptionRepository;
         private readonly IUserRepository userRepository;
         private readonly IBrowserReceiverRepository browserReceiverRepository;
+        private readonly IPushNotificationService notificationService;
+        private readonly ILogger<SubscriptionApplicationService> logger;
 
         public SubscriptionApplicationService(IAvatarRepository avatarRepository, 
             ISubscriptionRepository subscriptionRepository,
             IUserRepository userRepository,
-            IBrowserReceiverRepository browserReceiverRepository)
+            IBrowserReceiverRepository browserReceiverRepository,
+            IPushNotificationService notificationService,
+            ILogger<SubscriptionApplicationService> logger)
         {
             this.avatarRepository = avatarRepository;
             this.subscriptionRepository = subscriptionRepository;
             this.userRepository = userRepository;
             this.browserReceiverRepository = browserReceiverRepository;
+            this.notificationService = notificationService;
+            this.logger = logger;
         }
 
         public async Task AddSubscriptionForBrowserAsync(BrowserSubscriptionInfo subscriptionInfo)
@@ -57,11 +65,44 @@ namespace ei8.Cortex.Subscriptions.Application
             return await subscriptionRepository.GetAllByUserIdAsync(userId);  
         }
 
-        public Task NotifySubscribers(Avatar avatar)
+        public async Task NotifySubscribers(Avatar avatar)
         {
-            // TODO: integrate web push
-            return Task.CompletedTask;
-            //throw new NotImplementedException();
+            var notification = new PushNotificationPayload()
+            {
+                Title = "Avatar update",
+                Body = $"Avatar changed: {avatar.Url}"
+            };
+
+            var subscriptions = await subscriptionRepository.GetAllByAvatarIdAsync(avatar.Id);
+
+            foreach (var sub in subscriptions)
+            {
+                var receivers = await browserReceiverRepository.GetByUserIdAsync(sub.User.UserNeuronId);
+
+                foreach (var r in receivers)
+                {
+                    await TrySendNotification(notification, r);
+                }
+            }
+        }
+
+        private async Task TrySendNotification(PushNotificationPayload notification, BrowserReceiver receiver)
+        {
+            try
+            {
+                var pushReceiver = new WebPushReceiver()
+                {
+                    Endpoint = receiver.PushEndpoint,
+                    P256DH = receiver.PushP256DH,
+                    Auth = receiver.PushAuth
+                };
+
+                await notificationService.SendAsync(notification, pushReceiver);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error sending push notification: {Message}", ex.Message);
+            }
         }
     }
 }

@@ -38,7 +38,7 @@ namespace ei8.Cortex.Subscriptions.In.Api.BackgroundServices
                             continue;
                         }
 
-                        await Task.Delay(TimeSpan.FromSeconds(settings.SubscriptionsPollingIntervalSeconds));
+                        await Task.Delay(TimeSpan.FromSeconds(settings.PollingIntervalSeconds));
                     }
                 }
             });
