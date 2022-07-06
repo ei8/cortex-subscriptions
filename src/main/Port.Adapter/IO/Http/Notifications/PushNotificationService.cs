@@ -7,31 +7,21 @@ namespace ei8.Cortex.Subscriptions.IO.Http.Notifications
 {
     public class PushNotificationService : IPushNotificationService
     {
-        private readonly string publicKey;
-        private readonly string privateKey;
-        private readonly string subject;
-
-        private static readonly JsonSerializerOptions CamelCaseSerialization = new JsonSerializerOptions()
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        };
+        private readonly VapidDetails vapidDetails;
 
         public PushNotificationService(ISettingsService settings)
         {
-            publicKey = settings.PushPublicKey;
-            privateKey = settings.PushPrivateKey;
-            subject = settings.PushOwner;
+            this.vapidDetails = new VapidDetails(settings.PushOwner, settings.PushPublicKey, settings.PushPrivateKey);
         }
 
         public async Task SendAsync(PushNotificationPayload payload, WebPushReceiver subscription)
         {
             var pushSubscription = new PushSubscription(subscription.Endpoint, subscription.P256DH, subscription.Auth);
-            var vapidDetails = new VapidDetails(subject, publicKey, privateKey);
-            var jsonPayload = JsonSerializer.Serialize(payload, CamelCaseSerialization);
+            var jsonPayload = JsonSerializer.Serialize(payload, Constants.CamelCaseSerialization);
 
             using (var client = new WebPushClient())
             {
-                await client.SendNotificationAsync(pushSubscription, jsonPayload, vapidDetails);
+                await client.SendNotificationAsync(pushSubscription, jsonPayload, this.vapidDetails);
             }
         }
     }

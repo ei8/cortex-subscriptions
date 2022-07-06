@@ -35,8 +35,8 @@ namespace ei8.Cortex.Subscriptions.Application
 
         public async Task AddSubscriptionForBrowserAsync(BrowserSubscriptionInfo subscriptionInfo)
         {
-            var user = await userRepository.GetOrAddAsync(subscriptionInfo.UserId);
-            var avatar = await avatarRepository.GetOrAddAsync(subscriptionInfo.AvatarUrl);
+            var user = await this.userRepository.GetOrAddAsync(subscriptionInfo.UserId);
+            var avatar = await this.avatarRepository.GetOrAddAsync(subscriptionInfo.AvatarUrl);
 
             var receiver = new BrowserReceiver()
             {
@@ -48,7 +48,7 @@ namespace ei8.Cortex.Subscriptions.Application
                 User = user
             };
 
-            await browserReceiverRepository.AddAsync(receiver);
+            await this.browserReceiverRepository.AddAsync(receiver);
 
             var subscription = new Subscription()
             {
@@ -57,12 +57,12 @@ namespace ei8.Cortex.Subscriptions.Application
                 Id = Guid.NewGuid()
             };
 
-             await subscriptionRepository.AddAsync(subscription);
+             await this.subscriptionRepository.AddAsync(subscription);
         }
 
         public async Task<IList<Subscription>> GetAllByUserIdAsync(Guid userId)
         {
-            return await subscriptionRepository.GetAllByUserIdAsync(userId);  
+            return await this.subscriptionRepository.GetAllByUserIdAsync(userId);  
         }
 
         public async Task NotifySubscribers(Avatar avatar)
@@ -73,11 +73,11 @@ namespace ei8.Cortex.Subscriptions.Application
                 Body = $"Avatar changed: {avatar.Url}"
             };
 
-            var subscriptions = await subscriptionRepository.GetAllByAvatarIdAsync(avatar.Id);
+            var subscriptions = await this.subscriptionRepository.GetAllByAvatarIdAsync(avatar.Id);
 
             foreach (var sub in subscriptions)
             {
-                var receivers = await browserReceiverRepository.GetByUserIdAsync(sub.User.UserNeuronId);
+                var receivers = await this.browserReceiverRepository.GetByUserIdAsync(sub.User.UserNeuronId);
 
                 foreach (var r in receivers)
                 {
@@ -97,11 +97,11 @@ namespace ei8.Cortex.Subscriptions.Application
                     Auth = receiver.PushAuth
                 };
 
-                await notificationService.SendAsync(notification, pushReceiver);
+                await this.notificationService.SendAsync(notification, pushReceiver);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error sending push notification: {Message}", ex.Message);
+                this.logger.LogError(ex, "Error sending push notification: {Message}", ex.Message);
             }
         }
     }

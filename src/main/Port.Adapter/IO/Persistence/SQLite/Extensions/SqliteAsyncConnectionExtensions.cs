@@ -4,9 +4,9 @@ using System.Linq.Expressions;
 
 namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite.Extensions
 {
-    public static class SqliteAsyncConnectionExtensions
+    internal static class SqliteAsyncConnectionExtensions
     {
-        public static Task<List<T>> GetAllWithChildren<T>(this SQLiteAsyncConnection conn, Expression<Func<T, bool>> filter = null, bool recursive = false) where T : new()
+        internal static Task<List<T>> GetAllWithChildren<T>(this SQLiteAsyncConnection conn, Expression<Func<T, bool>> filter = null, bool recursive = false) where T : new()
         {
             return Task.Factory.StartNew(delegate
             {

@@ -10,15 +10,16 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
 
         public BrowserReceiverRepository(ISettingsService settings)
         {
-            connection = new SQLiteAsyncConnection(settings.DatabasePath);
+            this.connection = new SQLiteAsyncConnection(settings.DatabasePath);
         }
 
         public async Task AddAsync(BrowserReceiver receiver)
         {
             // check if already exists
-            var existingReceiver = await connection.Table<BrowserReceiverModel>().FirstOrDefaultAsync(b => b.PushEndpoint == receiver.PushEndpoint &&
-                                                                                                      b.PushP256DH == receiver.PushP256DH &&
-                                                                                                      b.PushAuth == receiver.PushAuth);
+            var existingReceiver = await this.connection.Table<BrowserReceiverModel>()
+                                                        .FirstOrDefaultAsync(b => b.PushEndpoint == receiver.PushEndpoint &&
+                                                                                  b.PushP256DH == receiver.PushP256DH &&
+                                                                                  b.PushAuth == receiver.PushAuth);
 
             if (existingReceiver == null)
             {
@@ -32,7 +33,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
                     PushP256DH = receiver.PushP256DH,
                 };
 
-                await connection.InsertAsync(existingReceiver);
+                await this.connection.InsertAsync(existingReceiver);
             }
         }
 
@@ -40,13 +41,13 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
         {
             var user = new User()
             {
-                UserNeuronId = (await connection.Table<UserModel>()
-                                                .FirstAsync(u => u.UserNeuronId == id)).UserNeuronId
+                UserNeuronId = (await this.connection.Table<UserModel>()
+                                                     .FirstAsync(u => u.UserNeuronId == id)).UserNeuronId
             };
 
-            var list = await connection.Table<BrowserReceiverModel>()
-                                       .Where(b => b.UserId == id)
-                                       .ToListAsync();
+            var list = await this.connection.Table<BrowserReceiverModel>()
+                                            .Where(b => b.UserId == id)
+                                            .ToListAsync();
 
             return list.Select(b => new BrowserReceiver()
             {

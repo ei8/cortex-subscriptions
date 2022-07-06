@@ -19,7 +19,7 @@ namespace ei8.Cortex.Subscriptions.IO.Http.PayloadHashing
         {
             this.httpClientFactory = httpClientFactory;
             this.logger = logger;
-            exponentialRetry = Policy.Handle<Exception>()
+            this.exponentialRetry = Policy.Handle<Exception>()
                                           .WaitAndRetryAsync(
                                               3,
                                               attempt => TimeSpan.FromMilliseconds(100 * Math.Pow(2, attempt)),
@@ -35,9 +35,9 @@ namespace ei8.Cortex.Subscriptions.IO.Http.PayloadHashing
 
         private async Task<string> GetPayloadAsync(string url)
         {
-            using (var client = httpClientFactory.CreateClient())
+            using (var client = this.httpClientFactory.CreateClient())
             {
-                var response = await exponentialRetry.ExecuteAsync(async () =>
+                var response = await this.exponentialRetry.ExecuteAsync(async () =>
                 {
                     return await client.GetAsync(url);
                 });

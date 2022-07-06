@@ -11,12 +11,12 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
 
         public AvatarRepository(ISettingsService settings)
         {
-            connection = new SQLiteAsyncConnection(settings.DatabasePath);
+            this.connection = new SQLiteAsyncConnection(settings.DatabasePath);
         }
 
         public async Task<IList<Avatar>> GetAll()
         {
-            var rows = await connection.GetAllWithChildren<AvatarModel>(recursive: true);
+            var rows = await this.connection.GetAllWithChildren<AvatarModel>(recursive: true);
 
             return rows.Select(r => new Avatar()
             {
@@ -28,7 +28,8 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
 
         public async Task<Avatar> GetOrAddAsync(string url)
         {
-            var avatar = await connection.Table<AvatarModel>().FirstOrDefaultAsync(t => t.Url == url);
+            var avatar = await this.connection.Table<AvatarModel>()
+                                              .FirstOrDefaultAsync(t => t.Url == url);
 
             if (avatar == null)
             {
@@ -38,7 +39,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
                     Id = Guid.NewGuid()
                 };
 
-                await connection.InsertAsync(avatar);
+                await this.connection.InsertAsync(avatar);
             }
 
             return new Avatar()
@@ -51,12 +52,13 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
 
         public async Task UpdateAsync(Avatar avatar)
         {
-            var existingAvatar = await connection.Table<AvatarModel>().FirstOrDefaultAsync(t => t.Url == avatar.Url);
+            var existingAvatar = await this.connection.Table<AvatarModel>()
+                                                      .FirstOrDefaultAsync(t => t.Url == avatar.Url);
 
             if (existingAvatar != null)
             {
                 existingAvatar.Hash = avatar.Hash;
-                await connection.UpdateAsync(existingAvatar);
+                await this.connection.UpdateAsync(existingAvatar);
             }
         }
     }

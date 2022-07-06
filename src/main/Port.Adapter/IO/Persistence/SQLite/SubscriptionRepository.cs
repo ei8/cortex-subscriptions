@@ -11,7 +11,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
 
         public SubscriptionRepository(ISettingsService settings)
         {
-            connection = new SQLiteAsyncConnection(settings.DatabasePath);
+            this.connection = new SQLiteAsyncConnection(settings.DatabasePath);
         }
 
         public async Task AddAsync(Subscription subscription)
@@ -23,12 +23,12 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
                 Id = subscription.Id
             };
 
-            await connection.InsertAsync(model);
+            await this.connection.InsertAsync(model);
         }
 
         public async Task<IList<Subscription>> GetAllByAvatarIdAsync(Guid avatarId)
         {
-            var subscriptions = await connection.GetAllWithChildren<SubscriptionModel>(s => s.AvatarId == avatarId, recursive: true);
+            var subscriptions = await this.connection.GetAllWithChildren<SubscriptionModel>(s => s.AvatarId == avatarId, recursive: true);
 
             return subscriptions.Select(s => new Subscription()
             {
@@ -45,7 +45,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
 
         public async Task<IList<Subscription>> GetAllByUserIdAsync(Guid userId)
         {
-            var subscriptions = await connection.GetAllWithChildren<SubscriptionModel>(s => s.UserId == userId, recursive: true);
+            var subscriptions = await this.connection.GetAllWithChildren<SubscriptionModel>(s => s.UserId == userId, recursive: true);
 
             return subscriptions.Select(s => new Subscription()
             {

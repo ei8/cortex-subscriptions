@@ -10,12 +10,12 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
 
         public UserRepository(ISettingsService settings)
         {
-            connection = new SQLiteAsyncConnection(settings.DatabasePath);
+            this.connection = new SQLiteAsyncConnection(settings.DatabasePath);
         }
 
         public async Task<User> GetOrAddAsync(Guid id)
         {
-            var user = await connection.Table<UserModel>().FirstOrDefaultAsync(u => u.UserNeuronId == id);
+            var user = await this.connection.Table<UserModel>().FirstOrDefaultAsync(u => u.UserNeuronId == id);
 
             if (user == null)
             {
@@ -24,7 +24,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
                     UserNeuronId = id
                 };
 
-                await connection.InsertAsync(user);
+                await this.connection.InsertAsync(user);
             }
 
             // TODO: Consider using AutoMapper to map from DB to domain model

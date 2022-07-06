@@ -18,7 +18,7 @@ namespace ei8.Cortex.Subscriptions.In.Api.BackgroundServices
             {
                 while (!stoppingToken.IsCancellationRequested)
                 {
-                    using (var scope = services.CreateScope())
+                    using (var scope = this.services.CreateScope())
                     {
                         var pollingService = scope.ServiceProvider.GetService<IPollingApplicationService>();
                         var subscriptionService = scope.ServiceProvider.GetService<ISubscriptionApplicationService>();
@@ -30,7 +30,7 @@ namespace ei8.Cortex.Subscriptions.In.Api.BackgroundServices
                             var avatars = await pollingService.GetAvatarsForPollingAsync();
 
                             foreach (var a in avatars)
-                                await PollAvatarAsync(a, pollingService, subscriptionService, logger);
+                                await this.PollAvatarAsync(a, pollingService, subscriptionService, logger);
                         }
                         catch (Exception ex)
                         {

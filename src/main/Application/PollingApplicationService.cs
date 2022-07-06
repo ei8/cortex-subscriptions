@@ -19,12 +19,12 @@ namespace ei8.Cortex.Subscriptions.Application
 
         public async Task<bool> CheckForChangesAsync(Avatar avatar)
         {
-            var newHash = await pollingService.GetPayloadHashAsync(avatar.Url);
+            var newHash = await this.pollingService.GetPayloadHashAsync(avatar.Url);
 
             if (newHash != avatar.Hash)
             {
                 avatar.Hash = newHash;
-                await avatarRepository.UpdateAsync(avatar);
+                await this.avatarRepository.UpdateAsync(avatar);
 
                 return true;
             }
@@ -36,7 +36,7 @@ namespace ei8.Cortex.Subscriptions.Application
 
         public async Task<IList<Avatar>> GetAvatarsForPollingAsync()
         {
-            return await avatarRepository.GetAll();
+            return await this.avatarRepository.GetAll();
         }
     }
 }
