@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Model", "main\Domain
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Http", "Http", "{8E6DBC56-ED31-4FFF-8510-DDA4BD5E814F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Http", "main\Port.Adapter\IO\Http\Http.csproj", "{71581301-BB9C-43D9-B04A-A3C2804FB556}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Http", "main\Port.Adapter\IO\Http\Http.csproj", "{71581301-BB9C-43D9-B04A-A3C2804FB556}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

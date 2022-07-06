@@ -18,14 +18,8 @@ namespace ei8.Cortex.Subscriptions.IO.Http.Notifications
 
         public PushNotificationService(ISettingsService settings)
         {
-            //publicKey = settings.PushPublicKey;
-            //privateKey = settings.PushPrivateKey;
-
-            var keys = VapidHelper.GenerateVapidKeys();
-
-            publicKey = keys.PublicKey;
-            privateKey = keys.PrivateKey;
-
+            publicKey = settings.PushPublicKey;
+            privateKey = settings.PushPrivateKey;
             subject = settings.PushOwner;
         }
 
