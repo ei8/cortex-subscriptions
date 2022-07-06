@@ -1,7 +1,7 @@
 ﻿using ei8.Cortex.Subscriptions.Application.Interface.Service;
 using ei8.Cortex.Subscriptions.Common;
 using ei8.Cortex.Subscriptions.Domain.Model;
-using ei8.Cortex.Subscriptions.IO.Http.Notifications;
+using ei8.Net.Http.Notifications;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

@@ -8,8 +8,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\cortex-subscriptions-common\src\main\Common.csproj" />
+    <ProjectReference Include="..\..\..\..\ei8-net-http\src\main\Http.csproj" />
     <ProjectReference Include="..\Domain.Model\Domain.Model.csproj" />
-    <ProjectReference Include="..\Port.Adapter\IO\Http\Http.csproj" />
   </ItemGroup>
 
 </Project>
