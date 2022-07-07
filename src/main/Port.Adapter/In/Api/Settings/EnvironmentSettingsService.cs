@@ -7,8 +7,8 @@ namespace ei8.Cortex.Subscriptions.In.Api.Settings
     {
         public EnvironmentSettingsService(IConfiguration config)
         {
-            DatabasePath = config.GetValue<string>(EnvironmentVariableKeys.SubscriptionsDatabasePath);
-            PollingIntervalSeconds = config.GetValue<int>(EnvironmentVariableKeys.SubscriptionsPollingIntervalSeconds);
+            this.DatabasePath = config.GetValue<string>(EnvironmentVariableKeys.SubscriptionsDatabasePath);
+            this.PollingIntervalSeconds = config.GetValue<int>(EnvironmentVariableKeys.SubscriptionsPollingIntervalSeconds);
 
             this.PushSettings = new PushNotificationSettings(
                 pushOwner: config.GetValue<string>(EnvironmentVariableKeys.SubscriptionsPushOwner),
