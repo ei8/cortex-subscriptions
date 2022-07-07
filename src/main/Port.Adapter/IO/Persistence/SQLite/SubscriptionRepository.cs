@@ -15,14 +15,21 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
 
         public async Task AddAsync(Subscription subscription)
         {
-            var model = new SubscriptionModel()
-            {
-                AvatarId = subscription.AvatarId,
-                UserId = subscription.UserId,
-                Id = subscription.Id
-            };
+            // check if existing subscription for the user and avatar ID pair exist
+            var existingSubscription = await this.connection.Table<SubscriptionModel>()
+                                                            .FirstOrDefaultAsync(s => s.AvatarId == subscription.AvatarId && s.UserId == subscription.UserId);
 
-            await this.connection.InsertAsync(model);
+            if (existingSubscription == null)
+            {
+                var model = new SubscriptionModel()
+                {
+                    AvatarId = subscription.AvatarId,
+                    UserId = subscription.UserId,
+                    Id = subscription.Id
+                };
+
+                await this.connection.InsertAsync(model);
+            }
         }
 
         public async Task<IList<Subscription>> GetAllByAvatarIdAsync(Guid avatarId)
