@@ -52,8 +52,8 @@ namespace ei8.Cortex.Subscriptions.Application
 
             var subscription = new Subscription()
             {
-                Avatar = avatar,
-                User = user,
+                AvatarId = avatar.Id,
+                UserId = user.UserNeuronId,
                 Id = Guid.NewGuid()
             };
 
@@ -77,7 +77,7 @@ namespace ei8.Cortex.Subscriptions.Application
 
             foreach (var sub in subscriptions)
             {
-                var receivers = await this.browserReceiverRepository.GetByUserIdAsync(sub.User.UserNeuronId);
+                var receivers = await this.browserReceiverRepository.GetByUserIdAsync(sub.UserId);
 
                 foreach (var r in receivers)
                 {

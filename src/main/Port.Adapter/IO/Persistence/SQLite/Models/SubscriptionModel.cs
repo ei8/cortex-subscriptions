@@ -12,9 +12,6 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite.Models
         [ForeignKey(typeof(AvatarModel))]
         public Guid AvatarId { get; set; }
 
-        [ManyToOne]
-        public AvatarModel Avatar { get; set; }
-
         [ForeignKey(typeof(UserModel))]
         public Guid UserId { get; set; }
 

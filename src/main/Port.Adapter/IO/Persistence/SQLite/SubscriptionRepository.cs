@@ -1,5 +1,4 @@
 ﻿using ei8.Cortex.Subscriptions.Domain.Model;
-using ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite.Extensions;
 using ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite.Models;
 using SQLite;
 
@@ -18,8 +17,8 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
         {
             var model = new SubscriptionModel()
             {
-                AvatarId = subscription.Avatar.Id,
-                UserId = subscription.User.UserNeuronId,
+                AvatarId = subscription.AvatarId,
+                UserId = subscription.UserId,
                 Id = subscription.Id
             };
 
@@ -28,35 +27,29 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
 
         public async Task<IList<Subscription>> GetAllByAvatarIdAsync(Guid avatarId)
         {
-            var subscriptions = await this.connection.GetAllWithChildren<SubscriptionModel>(s => s.AvatarId == avatarId, recursive: true);
+            var subscriptions = (await this.connection.Table<SubscriptionModel>()
+                                                      .ToListAsync())
+                                                      .Where(s => s.AvatarId == avatarId);
 
             return subscriptions.Select(s => new Subscription()
             {
                 Id = s.Id,
-                User = new User() { UserNeuronId = s.UserId },
-                Avatar = new Avatar()
-                {
-                    Hash = s.Avatar.Hash,
-                    Id = s.Avatar.Id,
-                    Url = s.Avatar.Url
-                }
+                UserId = s.UserId,
+                AvatarId = s.AvatarId
             }).ToList();
         }
 
         public async Task<IList<Subscription>> GetAllByUserIdAsync(Guid userId)
         {
-            var subscriptions = await this.connection.GetAllWithChildren<SubscriptionModel>(s => s.UserId == userId, recursive: true);
+            var subscriptions = (await this.connection.Table<SubscriptionModel>()
+                                                      .ToListAsync())
+                                                      .Where(s => s.UserId == userId);
 
             return subscriptions.Select(s => new Subscription()
             {
                 Id = s.Id,
-                User = new User() { UserNeuronId = s.UserId },
-                Avatar = new Avatar()
-                {
-                    Hash = s.Avatar.Hash,
-                    Id = s.Avatar.Id,
-                    Url = s.Avatar.Url
-                }
+                UserId = s.UserId,
+                AvatarId = s.AvatarId
             }).ToList();
         }
     }
