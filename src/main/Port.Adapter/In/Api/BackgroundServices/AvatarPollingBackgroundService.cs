@@ -27,10 +27,10 @@ namespace ei8.Cortex.Subscriptions.In.Api.BackgroundServices
 
                         try
                         {
-                            var avatars = await pollingService.GetAvatarsForPollingAsync();
+                            var avatars = await pollingService.GetAvatarUrlsForPollingAsync();
 
                             foreach (var a in avatars)
-                                await this.PollAvatarAsync(a, pollingService, subscriptionService, logger);
+                                await this.PollAvatarUrlAsync(a, pollingService, subscriptionService, logger);
                         }
                         catch (Exception ex)
                         {
@@ -44,7 +44,7 @@ namespace ei8.Cortex.Subscriptions.In.Api.BackgroundServices
             });
         }
 
-        private async Task PollAvatarAsync(Avatar a, 
+        private async Task PollAvatarUrlAsync(AvatarUrlSnapshot a, 
             IPollingApplicationService pollingService, 
             ISubscriptionApplicationService subscriptionService,
             ILogger logger)
@@ -60,7 +60,7 @@ namespace ei8.Cortex.Subscriptions.In.Api.BackgroundServices
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error polling avatar {a.Url}: {Message}", a.Url, ex.Message);
+                logger.LogError(ex, "Error polling avatar at {a.Url}: {Message}", a.Url, ex.Message);
             }
         }
     }

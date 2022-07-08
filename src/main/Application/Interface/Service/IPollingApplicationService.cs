@@ -6,7 +6,7 @@ namespace ei8.Cortex.Subscriptions.Application.Interface.Service
 {
     public interface IPollingApplicationService
     {
-        Task<IList<Avatar>> GetAvatarsForPollingAsync();
-        Task<bool> CheckForChangesAsync(Avatar avatar);
+        Task<IList<AvatarUrlSnapshot>> GetAvatarUrlsForPollingAsync();
+        Task<bool> CheckForChangesAsync(AvatarUrlSnapshot avatarUrlSnapshot);
     }
 }

@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddTransient<ISettingsService, EnvironmentSettingsService>();
-builder.Services.AddTransient<IAvatarRepository, AvatarRepository>();
+builder.Services.AddTransient<IAvatarUrlSnapshotRepository, AvatarUrlSnapshotRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IBrowserReceiverRepository, BrowserReceiverRepository>();
 builder.Services.AddTransient<ISubscriptionRepository, SubscriptionRepository>();

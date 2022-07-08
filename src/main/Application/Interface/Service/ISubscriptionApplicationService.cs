@@ -17,6 +17,6 @@ namespace ei8.Cortex.Subscriptions.Application.Interface.Service
         /// <returns></returns>
         Task<IList<Subscription>> GetAllByUserIdAsync(Guid userId);
 
-        Task NotifySubscribers(Avatar avatar);
+        Task NotifySubscribers(AvatarUrlSnapshot avatarUrlSnapshot);
     }
 }

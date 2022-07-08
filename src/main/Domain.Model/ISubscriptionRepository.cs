@@ -7,7 +7,7 @@ namespace ei8.Cortex.Subscriptions.Domain.Model
     public interface ISubscriptionRepository    
     {
         Task<IList<Subscription>> GetAllByUserIdAsync(Guid userId);
-        Task<IList<Subscription>> GetAllByAvatarIdAsync(Guid avatarId);
+        Task<IList<Subscription>> GetAllByAvatarUrlSnapshotIdAsync(Guid avatarUrlSnapshotId);
         Task AddAsync(Subscription subscription);
     }
 }

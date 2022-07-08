@@ -8,23 +8,23 @@ namespace ei8.Cortex.Subscriptions.Application
 {
     public class PollingApplicationService : IPollingApplicationService
     {
-        private readonly IAvatarRepository avatarRepository;
+        private readonly IAvatarUrlSnapshotRepository avatarUrlSnapshotRepository;
         private readonly IPayloadHashService pollingService;
 
-        public PollingApplicationService(IAvatarRepository avatarRepository, IPayloadHashService pollingService)
+        public PollingApplicationService(IAvatarUrlSnapshotRepository avatarUrlSnapshotRepository, IPayloadHashService pollingService)
         {
-            this.avatarRepository = avatarRepository;
+            this.avatarUrlSnapshotRepository = avatarUrlSnapshotRepository;
             this.pollingService = pollingService;
         }
 
-        public async Task<bool> CheckForChangesAsync(Avatar avatar)
+        public async Task<bool> CheckForChangesAsync(AvatarUrlSnapshot avatarUrlSnapshot)
         {
-            var newHash = await this.pollingService.GetPayloadHashAsync(avatar.Url);
+            var newHash = await this.pollingService.GetPayloadHashAsync(avatarUrlSnapshot.Url);
 
-            if (newHash != avatar.Hash)
+            if (newHash != avatarUrlSnapshot.Hash)
             {
-                avatar.Hash = newHash;
-                await this.avatarRepository.UpdateAsync(avatar);
+                avatarUrlSnapshot.Hash = newHash;
+                await this.avatarUrlSnapshotRepository.UpdateAsync(avatarUrlSnapshot);
 
                 return true;
             }
@@ -34,9 +34,9 @@ namespace ei8.Cortex.Subscriptions.Application
             }
         }
 
-        public async Task<IList<Avatar>> GetAvatarsForPollingAsync()
+        public async Task<IList<AvatarUrlSnapshot>> GetAvatarUrlsForPollingAsync()
         {
-            return await this.avatarRepository.GetAll();
+            return await this.avatarUrlSnapshotRepository.GetAll();
         }
     }
 }

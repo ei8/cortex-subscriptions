@@ -11,21 +11,21 @@ namespace ei8.Cortex.Subscriptions.Application
 {
     public class SubscriptionApplicationService : ISubscriptionApplicationService
     {
-        private readonly IAvatarRepository avatarRepository;
+        private readonly IAvatarUrlSnapshotRepository avatarUrlSnapshotRepository;
         private readonly ISubscriptionRepository subscriptionRepository;
         private readonly IUserRepository userRepository;
         private readonly IBrowserReceiverRepository browserReceiverRepository;
         private readonly IPushNotificationService notificationService;
         private readonly ILogger<SubscriptionApplicationService> logger;
 
-        public SubscriptionApplicationService(IAvatarRepository avatarRepository, 
+        public SubscriptionApplicationService(IAvatarUrlSnapshotRepository avatarUrlSnapshotRepository, 
             ISubscriptionRepository subscriptionRepository,
             IUserRepository userRepository,
             IBrowserReceiverRepository browserReceiverRepository,
             IPushNotificationService notificationService,
             ILogger<SubscriptionApplicationService> logger)
         {
-            this.avatarRepository = avatarRepository;
+            this.avatarUrlSnapshotRepository = avatarUrlSnapshotRepository;
             this.subscriptionRepository = subscriptionRepository;
             this.userRepository = userRepository;
             this.browserReceiverRepository = browserReceiverRepository;
@@ -36,7 +36,7 @@ namespace ei8.Cortex.Subscriptions.Application
         public async Task AddSubscriptionForBrowserAsync(BrowserSubscriptionInfo subscriptionInfo)
         {
             var user = await this.userRepository.GetOrAddAsync(subscriptionInfo.UserId);
-            var avatar = await this.avatarRepository.GetOrAddAsync(subscriptionInfo.AvatarUrl);
+            var avatarUrlSnapshot = await this.avatarUrlSnapshotRepository.GetOrAddAsync(subscriptionInfo.AvatarUrl);
 
             var receiver = new BrowserReceiver()
             {
@@ -52,7 +52,7 @@ namespace ei8.Cortex.Subscriptions.Application
 
             var subscription = new Subscription()
             {
-                AvatarId = avatar.Id,
+                AvatarUrlSnapshotId = avatarUrlSnapshot.Id,
                 UserId = user.UserNeuronId,
                 Id = Guid.NewGuid()
             };
@@ -65,15 +65,15 @@ namespace ei8.Cortex.Subscriptions.Application
             return await this.subscriptionRepository.GetAllByUserIdAsync(userId);  
         }
 
-        public async Task NotifySubscribers(Avatar avatar)
+        public async Task NotifySubscribers(AvatarUrlSnapshot avatarUrlSnapshot)
         {
             var notification = new PushNotificationPayload()
             {
                 Title = "Avatar update",
-                Body = $"Avatar changed: {avatar.Url}"
+                Body = $"Avatar changed: {avatarUrlSnapshot.Url}"
             };
 
-            var subscriptions = await this.subscriptionRepository.GetAllByAvatarIdAsync(avatar.Id);
+            var subscriptions = await this.subscriptionRepository.GetAllByAvatarUrlSnapshotIdAsync(avatarUrlSnapshot.Id);
 
             foreach (var sub in subscriptions)
             {

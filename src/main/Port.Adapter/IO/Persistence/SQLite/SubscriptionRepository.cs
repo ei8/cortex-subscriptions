@@ -17,13 +17,13 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
         {
             // check if existing subscription for the user and avatar ID pair exist
             var existingSubscription = await this.connection.Table<SubscriptionModel>()
-                                                            .FirstOrDefaultAsync(s => s.AvatarId == subscription.AvatarId && s.UserId == subscription.UserId);
+                                                            .FirstOrDefaultAsync(s => s.AvatarId == subscription.AvatarUrlSnapshotId && s.UserId == subscription.UserId);
 
             if (existingSubscription == null)
             {
                 var model = new SubscriptionModel()
                 {
-                    AvatarId = subscription.AvatarId,
+                    AvatarId = subscription.AvatarUrlSnapshotId,
                     UserId = subscription.UserId,
                     Id = subscription.Id
                 };
@@ -32,7 +32,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
             }
         }
 
-        public async Task<IList<Subscription>> GetAllByAvatarIdAsync(Guid avatarId)
+        public async Task<IList<Subscription>> GetAllByAvatarUrlSnapshotIdAsync(Guid avatarId)
         {
             var subscriptions = (await this.connection.Table<SubscriptionModel>()
                                                       .ToListAsync())
@@ -42,7 +42,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
             {
                 Id = s.Id,
                 UserId = s.UserId,
-                AvatarId = s.AvatarId
+                AvatarUrlSnapshotId = s.AvatarId
             }).ToList();
         }
 
@@ -56,7 +56,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
             {
                 Id = s.Id,
                 UserId = s.UserId,
-                AvatarId = s.AvatarId
+                AvatarUrlSnapshotId = s.AvatarId
             }).ToList();
         }
     }

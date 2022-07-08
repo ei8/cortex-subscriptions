@@ -5,20 +5,20 @@ using SQLite;
 
 namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
 {
-    public class AvatarRepository : IAvatarRepository
+    public class AvatarUrlSnapshotRepository : IAvatarUrlSnapshotRepository
     {
         private readonly SQLiteAsyncConnection connection;
 
-        public AvatarRepository(ISettingsService settings)
+        public AvatarUrlSnapshotRepository(ISettingsService settings)
         {
             this.connection = new SQLiteAsyncConnection(settings.DatabasePath);
         }
 
-        public async Task<IList<Avatar>> GetAll()
+        public async Task<IList<AvatarUrlSnapshot>> GetAll()
         {
             var rows = await this.connection.GetAllWithChildren<AvatarModel>(recursive: true);
 
-            return rows.Select(r => new Avatar()
+            return rows.Select(r => new AvatarUrlSnapshot()
             {
                 Hash = r.Hash,
                 Id = r.Id,
@@ -26,7 +26,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
             }).ToList();
         }
 
-        public async Task<Avatar> GetOrAddAsync(string url)
+        public async Task<AvatarUrlSnapshot> GetOrAddAsync(string url)
         {
             var avatar = await this.connection.Table<AvatarModel>()
                                               .FirstOrDefaultAsync(t => t.Url == url);
@@ -42,7 +42,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
                 await this.connection.InsertAsync(avatar);
             }
 
-            return new Avatar()
+            return new AvatarUrlSnapshot()
             {
                 Hash = avatar.Hash,
                 Id = avatar.Id,
@@ -50,7 +50,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
             };
         }
 
-        public async Task UpdateAsync(Avatar avatar)
+        public async Task UpdateAsync(AvatarUrlSnapshot avatar)
         {
             var existingAvatar = await this.connection.Table<AvatarModel>()
                                                       .FirstOrDefaultAsync(t => t.Url == avatar.Url);
