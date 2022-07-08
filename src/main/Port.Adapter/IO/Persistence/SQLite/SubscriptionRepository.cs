@@ -1,6 +1,4 @@
-﻿using ei8.Cortex.Subscriptions.Application.Interface.Service;
-using ei8.Cortex.Subscriptions.Domain.Model;
-using ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite.Extensions;
+﻿using ei8.Cortex.Subscriptions.Domain.Model;
 using ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite.Models;
 using SQLite;
 
@@ -12,35 +10,53 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
 
         public SubscriptionRepository(ISettingsService settings)
         {
-            connection = new SQLiteAsyncConnection(settings.SubscriptionsDatabasePath);
+            this.connection = new SQLiteAsyncConnection(settings.DatabasePath);
         }
 
         public async Task AddAsync(Subscription subscription)
         {
-            var model = new SubscriptionModel()
-            {
-                AvatarId = subscription.Avatar.Id,
-                UserId = subscription.User.UserNeuronId,
-                Id = subscription.Id
-            };
+            // check if existing subscription for the user and avatar ID pair exist
+            var existingSubscription = await this.connection.Table<SubscriptionModel>()
+                                                            .FirstOrDefaultAsync(s => s.AvatarId == subscription.AvatarUrlSnapshotId && s.UserId == subscription.UserId);
 
-            await connection.InsertAsync(model);
+            if (existingSubscription == null)
+            {
+                var model = new SubscriptionModel()
+                {
+                    AvatarId = subscription.AvatarUrlSnapshotId,
+                    UserId = subscription.UserId,
+                    Id = subscription.Id
+                };
+
+                await this.connection.InsertAsync(model);
+            }
         }
 
-        public async Task<IList<Subscription>> GetAllByUserIdAsync(Guid userId)
+        public async Task<IList<Subscription>> GetAllByAvatarUrlSnapshotIdAsync(Guid avatarId)
         {
-            var subscriptions = await connection.GetAllWithChildren<SubscriptionModel>(s => s.UserId == userId, recursive: true);
+            var subscriptions = (await this.connection.Table<SubscriptionModel>()
+                                                      .ToListAsync())
+                                                      .Where(s => s.AvatarId == avatarId);
 
             return subscriptions.Select(s => new Subscription()
             {
                 Id = s.Id,
-                User = new User() { UserNeuronId = s.UserId },
-                Avatar = new Avatar()
-                {
-                    Hash = s.Avatar.Hash,
-                    Id = s.Avatar.Id,
-                    Url = s.Avatar.Url
-                }
+                UserId = s.UserId,
+                AvatarUrlSnapshotId = s.AvatarId
+            }).ToList();
+        }
+
+        public async Task<IList<Subscription>> GetAllByUserIdAsync(Guid userId)
+        {
+            var subscriptions = (await this.connection.Table<SubscriptionModel>()
+                                                      .ToListAsync())
+                                                      .Where(s => s.UserId == userId);
+
+            return subscriptions.Select(s => new Subscription()
+            {
+                Id = s.Id,
+                UserId = s.UserId,
+                AvatarUrlSnapshotId = s.AvatarId
             }).ToList();
         }
     }

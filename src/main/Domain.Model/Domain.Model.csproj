@@ -6,4 +6,8 @@
     <RootNamespace>ei8.Cortex.Subscriptions.Domain.Model</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\ei8-net-http\src\main\Http.csproj" />
+  </ItemGroup>
+
 </Project>
