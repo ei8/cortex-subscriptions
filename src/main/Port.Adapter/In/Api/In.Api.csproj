@@ -10,6 +10,7 @@
     <DockerComposeProjectPath>..\..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
     <AssemblyName>ei8.Cortex.Subscriptions.$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>ei8.Cortex.Subscriptions.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

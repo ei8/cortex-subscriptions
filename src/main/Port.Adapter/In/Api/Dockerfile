@@ -19,4 +19,4 @@ RUN dotnet publish "In.Api.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "In.Api.dll"]
+ENTRYPOINT ["dotnet", "ei8.Cortex.Subscriptions.In.Api.dll"]
