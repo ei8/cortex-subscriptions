@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\ei8-net-http\src\main\Http.csproj" />
+    <PackageReference Include="ei8.Net.Http" Version="0.1.0" />
   </ItemGroup>
 
 </Project>

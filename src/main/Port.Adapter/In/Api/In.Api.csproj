@@ -19,9 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\ei8-net-http\src\main\Http.csproj" />
     <ProjectReference Include="..\..\..\Application\Application.csproj" />
     <ProjectReference Include="..\..\IO\Persistence\SQLite\SQLite.csproj" />
+    <ProjectReference Include="..\..\IO\Process\Services\Services.csproj" />
   </ItemGroup>
 
 </Project>
