@@ -6,7 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>4abefbb5-ece7-4f6a-b3e1-02462334aec4</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..\..\..\..</DockerfileContext>
+	<DockerfileContext>..\..\..\..</DockerfileContext>
+	<DockerComposeProjectPath>..\..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
     <AssemblyName>ei8.Cortex.Subscriptions.$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>ei8.Cortex.Subscriptions.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
     <Version>0.1.0</Version>
