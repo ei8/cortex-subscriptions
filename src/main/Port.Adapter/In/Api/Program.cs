@@ -3,8 +3,8 @@ using ei8.Cortex.Subscriptions.Application.Interface.Service;
 using ei8.Cortex.Subscriptions.Common;
 using ei8.Cortex.Subscriptions.Domain.Model;
 using ei8.Cortex.Subscriptions.In.Api.BackgroundServices;
-using ei8.Cortex.Subscriptions.In.Api.Settings;
 using ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite;
+using ei8.Cortex.Subscriptions.Port.Adapter.IO.Process.Services;
 using ei8.Net.Http.Notifications;
 using ei8.Net.Http.PayloadHashing;
 

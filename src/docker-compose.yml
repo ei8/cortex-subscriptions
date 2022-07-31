@@ -2,7 +2,12 @@ version: '3.4'
 
 services:
   cortex.subscriptions.in.api:
-    image: ${DOCKER_REGISTRY-}inapi
+    image: ei8works/cortex.subscriptions.in.api:0.1.0
     build:
       context: .
       dockerfile: main/Port.Adapter/In/Api/Dockerfile
+  cortex.subscriptions.out.api:
+    image: ei8works/cortex.subscriptions.out.api:0.1.0
+    build:
+      context: .
+      dockerfile: main/Port.Adapter/Out/Api/Dockerfile

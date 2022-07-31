@@ -1,4 +1,4 @@
-﻿namespace ei8.Cortex.Subscriptions.In.Api.Settings
+﻿namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Process.Services
 {
     internal sealed class EnvironmentVariableKeys
     {
