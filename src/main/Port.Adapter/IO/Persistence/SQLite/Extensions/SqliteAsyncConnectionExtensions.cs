@@ -1,6 +1,10 @@
 ﻿using SQLite;
 using SQLiteNetExtensions.Extensions;
+using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite.Extensions
 {

@@ -1,4 +1,5 @@
 ﻿using SQLite;
+using System;
 
 namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite.Models
 {

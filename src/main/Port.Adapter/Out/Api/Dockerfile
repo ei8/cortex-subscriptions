@@ -10,7 +10,7 @@ WORKDIR /src
 COPY ["main/Port.Adapter/Out/Api/Out.Api.csproj", "main/Port.Adapter/Out/Api/"]
 RUN dotnet restore "main/Port.Adapter/Out/Api/Out.Api.csproj"
 COPY . .
-WORKDIR "/src/main/Port.Adapter/Out/Api/Out.Api"
+WORKDIR "/src/main/Port.Adapter/Out/Api"
 RUN dotnet build "Out.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish

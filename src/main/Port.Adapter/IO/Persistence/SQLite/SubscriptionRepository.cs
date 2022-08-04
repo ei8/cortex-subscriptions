@@ -2,6 +2,10 @@
 using ei8.Cortex.Subscriptions.Domain.Model;
 using ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite.Models;
 using SQLite;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
 {
