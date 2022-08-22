@@ -1,4 +1,5 @@
 ﻿using ei8.Cortex.Subscriptions.Common;
+using ei8.Cortex.Subscriptions.Common.Receivers;
 using ei8.Cortex.Subscriptions.Domain.Model;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ namespace ei8.Cortex.Subscriptions.Application.Interface.Service
 {
     public interface ISubscriptionApplicationService
     {
-        Task AddSubscriptionForBrowserAsync(BrowserSubscriptionInfo subscriptionInfo);
+        Task AddSubscriptionAsync(SubscriptionInfo subscriptionInfo, IReceiverInfo receiverInfo);
 
         /// <summary>
         /// TODO: Remove later for debugging only

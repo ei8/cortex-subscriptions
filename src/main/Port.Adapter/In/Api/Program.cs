@@ -48,9 +48,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/subscriptions", async (BrowserSubscriptionInfo request, ISubscriptionApplicationService service) =>
+app.MapPost("/subscriptions/receivers/{receiverType}", async (string receiverType, HttpRequest request, ISubscriptionApplicationService service) =>
 {
-    await service.AddSubscriptionForBrowserAsync(request);
+    switch (receiverType)
+    {
+        case "web":
+            var obj = await request.ReadFromJsonAsync<AddSubscriptionWebReceiverRequest>();
+            await service.AddSubscriptionAsync(obj.SubscriptionInfo, obj.ReceiverInfo);
+            break;
+    }
+
     return Results.Ok();
 });
 
