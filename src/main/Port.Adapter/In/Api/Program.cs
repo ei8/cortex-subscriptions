@@ -13,15 +13,15 @@ using ei8.Net.Http.Notifications;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddTransient<ISettingsService, EnvironmentSettingsService>();
-builder.Services.AddTransient<IAvatarUrlSnapshotRepository, AvatarUrlSnapshotRepository>();
-builder.Services.AddTransient<IUserRepository, UserRepository>();
-builder.Services.AddTransient<IBrowserReceiverRepository, BrowserReceiverRepository>();
-builder.Services.AddTransient<ISubscriptionRepository, SubscriptionRepository>();
-builder.Services.AddTransient<ISubscriptionApplicationService, SubscriptionApplicationService>();
-builder.Services.AddTransient<IPollingApplicationService, PollingApplicationService>();
-builder.Services.AddTransient<IPushNotificationApplicationService, WebPushNotificationApplicationService>();
-builder.Services.AddTransient<PushNotificationSettings>(sp =>
+builder.Services.AddScoped<ISettingsService, EnvironmentSettingsService>();
+builder.Services.AddScoped<IAvatarUrlSnapshotRepository, AvatarUrlSnapshotRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IBrowserReceiverRepository, BrowserReceiverRepository>();
+builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+builder.Services.AddScoped<ISubscriptionApplicationService, SubscriptionApplicationService>();
+builder.Services.AddScoped<IPollingApplicationService, PollingApplicationService>();
+builder.Services.AddScoped<IPushNotificationApplicationService, WebPushNotificationApplicationService>();
+builder.Services.AddScoped<PushNotificationSettings>(sp =>
 {
     // inject push notification settings from environment variables
     // through the main settings object
