@@ -68,14 +68,8 @@ namespace ei8.Cortex.Subscriptions.Application
             await this.subscriptionRepository.AddAsync(subscription);
         }
 
-        public async Task<IList<Subscription>> GetAllByUserIdAsync(Guid userId)
-        {
-            return await this.subscriptionRepository.GetAllByUserIdAsync(userId);  
-        }
-
         public async Task NotifySubscribers(AvatarUrlSnapshot avatarUrlSnapshot)
         {
-
             var subscriptions = await this.subscriptionRepository.GetAllByAvatarUrlSnapshotIdAsync(avatarUrlSnapshot.Id);
 
             foreach (var sub in subscriptions)

@@ -65,11 +65,4 @@ app.MapPost("/subscriptions/receivers/{receiverType}", async (string receiverTyp
     return Results.Ok();
 });
 
-// TODO: remove later. for debugging only
-app.MapGet("/subscriptions/{userNeuronId}", async (Guid userNeuronId, ISubscriptionApplicationService service) =>
-{
-    var subs = await service.GetAllByUserIdAsync(userNeuronId);
-    return Results.Ok(subs);
-});
-
 app.Run();
