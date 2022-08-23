@@ -1,12 +1,14 @@
 using ei8.Cortex.Subscriptions.Application;
 using ei8.Cortex.Subscriptions.Application.Interface.Service;
+using ei8.Cortex.Subscriptions.Application.Interface.Service.PushNotifications;
+using ei8.Cortex.Subscriptions.Application.PushNotifications;
 using ei8.Cortex.Subscriptions.Common;
 using ei8.Cortex.Subscriptions.Domain.Model;
 using ei8.Cortex.Subscriptions.In.Api.BackgroundServices;
 using ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite;
 using ei8.Cortex.Subscriptions.Port.Adapter.IO.Process.Services;
+using ei8.Net.Http;
 using ei8.Net.Http.Notifications;
-using ei8.Net.Http.PayloadHashing;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,14 +20,16 @@ builder.Services.AddTransient<IBrowserReceiverRepository, BrowserReceiverReposit
 builder.Services.AddTransient<ISubscriptionRepository, SubscriptionRepository>();
 builder.Services.AddTransient<ISubscriptionApplicationService, SubscriptionApplicationService>();
 builder.Services.AddTransient<IPollingApplicationService, PollingApplicationService>();
-builder.Services.AddTransient<IPayloadHashService, HttpPayloadHashService>();
-builder.Services.AddTransient<IPushNotificationService, PushNotificationService>(sp =>
+builder.Services.AddTransient<IPushNotificationApplicationService, WebPushNotificationApplicationService>();
+builder.Services.AddTransient<PushNotificationSettings>(sp =>
 {
     // inject push notification settings from environment variables
     // through the main settings object
     var settings = sp.GetService<ISettingsService>();
-    return new PushNotificationService(settings.PushSettings);
+    return settings.PushSettings;
 });
+
+builder.Services.AddEi8Http();
 
 builder.Services.AddHttpClient();
 
