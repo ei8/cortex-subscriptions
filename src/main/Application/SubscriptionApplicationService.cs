@@ -36,7 +36,7 @@ namespace ei8.Cortex.Subscriptions.Application
 
         public async Task AddSubscriptionAsync(SubscriptionInfo subscriptionInfo, IReceiverInfo receiverInfo)
         {
-            var user = await this.userRepository.GetOrAddAsync(subscriptionInfo.UserId);
+            var user = await this.userRepository.GetOrAddAsync(subscriptionInfo.UserNeuronId);
             var avatarUrlSnapshot = await this.avatarUrlSnapshotRepository.GetOrAddAsync(subscriptionInfo.AvatarUrl);
 
             switch (receiverInfo)
@@ -61,7 +61,7 @@ namespace ei8.Cortex.Subscriptions.Application
             var subscription = new Subscription()
             {
                 AvatarUrlSnapshotId = avatarUrlSnapshot.Id,
-                UserId = user.UserNeuronId,
+                UserNeuronId = user.UserNeuronId,
                 Id = Guid.NewGuid()
             };
 
@@ -76,7 +76,7 @@ namespace ei8.Cortex.Subscriptions.Application
             {
                 foreach (var notificationService in this.notificationServices)
                 {
-                    await notificationService.NotifyReceiversForUserAsync(sub.UserId, avatarUrlSnapshot.Url);
+                    await notificationService.NotifyReceiversForUserAsync(sub.UserNeuronId, avatarUrlSnapshot.Url);
                 }
             }
         }
