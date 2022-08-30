@@ -32,7 +32,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
                 {
                     Id = receiver.Id,
                     Name = receiver.Name,
-                    UserId = receiver.User.UserNeuronId,
+                    UserNeuronId = receiver.User.UserNeuronId,
                     PushAuth = receiver.PushAuth,
                     PushEndpoint = receiver.PushEndpoint,
                     PushP256DH = receiver.PushP256DH,
@@ -51,7 +51,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
             };
 
             var list = await this.connection.Table<BrowserReceiverModel>()
-                                            .Where(b => b.UserId == id)
+                                            .Where(b => b.UserNeuronId == id)
                                             .ToListAsync();
 
             return list.Select(b => new BrowserReceiver()

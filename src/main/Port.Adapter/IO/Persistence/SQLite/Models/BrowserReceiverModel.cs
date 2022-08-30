@@ -11,7 +11,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite.Models
         public Guid Id { get; set; }
 
         [ForeignKey(typeof(UserModel))]
-        public Guid UserId { get; set; }
+        public Guid UserNeuronId { get; set; }
 
         public string Name { get; set; }
         public string PushEndpoint { get; set; }
