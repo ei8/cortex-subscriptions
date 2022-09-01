@@ -22,14 +22,14 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
         {
             // check if existing subscription for the user and avatar ID pair exist
             var existingSubscription = await this.connection.Table<SubscriptionModel>()
-                                                            .FirstOrDefaultAsync(s => s.AvatarId == subscription.AvatarUrlSnapshotId && s.UserId == subscription.UserId);
+                                                            .FirstOrDefaultAsync(s => s.AvatarId == subscription.AvatarUrlSnapshotId && s.UserNeuronId == subscription.UserNeuronId);
 
             if (existingSubscription == null)
             {
                 var model = new SubscriptionModel()
                 {
                     AvatarId = subscription.AvatarUrlSnapshotId,
-                    UserId = subscription.UserId,
+                    UserNeuronId = subscription.UserNeuronId,
                     Id = subscription.Id
                 };
 
@@ -46,7 +46,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
             return subscriptions.Select(s => new Subscription()
             {
                 Id = s.Id,
-                UserId = s.UserId,
+                UserNeuronId = s.UserNeuronId,
                 AvatarUrlSnapshotId = s.AvatarId
             }).ToList();
         }
@@ -55,12 +55,12 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
         {
             var subscriptions = (await this.connection.Table<SubscriptionModel>()
                                                       .ToListAsync())
-                                                      .Where(s => s.UserId == userId);
+                                                      .Where(s => s.UserNeuronId == userId);
 
             return subscriptions.Select(s => new Subscription()
             {
                 Id = s.Id,
-                UserId = s.UserId,
+                UserNeuronId = s.UserNeuronId,
                 AvatarUrlSnapshotId = s.AvatarId
             }).ToList();
         }

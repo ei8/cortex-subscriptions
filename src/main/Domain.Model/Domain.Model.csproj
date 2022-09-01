@@ -6,8 +6,4 @@
     <RootNamespace>ei8.Cortex.Subscriptions.Domain.Model</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="ei8.Net.Http" Version="0.1.0" />
-  </ItemGroup>
-
 </Project>

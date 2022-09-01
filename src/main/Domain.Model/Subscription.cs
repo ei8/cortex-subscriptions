@@ -7,7 +7,7 @@ namespace ei8.Cortex.Subscriptions.Domain.Model
         public Guid Id { get; set; }
         public SubscriptionMode Mode { get; set; } = SubscriptionMode.Once;
         public Guid AvatarUrlSnapshotId { get; set; }
-        public Guid UserId { get; set; }
+        public Guid UserNeuronId { get; set; }
     }
 
     public enum SubscriptionMode
