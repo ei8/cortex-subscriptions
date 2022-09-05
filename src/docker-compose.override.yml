@@ -13,4 +13,4 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-      - /C/Users/Junvic/Documents/avatar-server-pack/avatars/prod/sample:/C/db
+      - /C/ei8/avatars/prod/sample:/C/db
