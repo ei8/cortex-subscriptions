@@ -6,5 +6,6 @@ namespace ei8.Cortex.Subscriptions.Application.Interface.Service.PushNotificatio
     public interface IPushNotificationApplicationService
     {
         Task NotifyReceiversForUserAsync(Guid userNeuronId, string avatarUrl);
+        Task NotifyReceiversForUserAsync(Guid userNeuronId, string title, string body);
     }
 }

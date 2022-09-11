@@ -38,6 +38,23 @@ namespace ei8.Cortex.Subscriptions.Application.PushNotifications
                 await this.TrySendWebNotification(notification, r);
             }
         }
+
+        public async Task NotifyReceiversForUserAsync(Guid userNeuronId, string title, string body)
+        {
+            var notification = new WebPushNotificationPayload()
+            {
+                Title = title,
+                Body = body
+            };
+
+            var receivers = await this.repository.GetByUserIdAsync(userNeuronId);
+
+            foreach (var r in receivers)
+            {
+                await this.TrySendWebNotification(notification, r);
+            }
+        }
+
         private async Task TrySendWebNotification(WebPushNotificationPayload notification, BrowserReceiver receiver)
         {
             try

@@ -9,6 +9,7 @@ using ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite;
 using ei8.Cortex.Subscriptions.Port.Adapter.IO.Process.Services;
 using ei8.Net.Http;
 using ei8.Net.Http.Notifications;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,6 +64,14 @@ app.MapPost("/subscriptions/receivers/{receiverType}", async (string receiverTyp
     }
 
     return Results.Ok();
+});
+
+app.MapPost("/notify/{targetUserNeuronId}", async (Guid targetUserNeuronId, [FromBody] NotificationPayloadRequest payload, IEnumerable<IPushNotificationApplicationService> pushNotificationApplicationServices) =>
+{
+    foreach (var service in pushNotificationApplicationServices)
+    {
+        await service.NotifyReceiversForUserAsync(targetUserNeuronId, payload.Title, payload.Body);
+    }
 });
 
 app.Run();
