@@ -1,9 +1,11 @@
 ﻿using ei8.Cortex.Subscriptions.Application.Interface.Service.PushNotifications;
+using ei8.Cortex.Subscriptions.Common;
 using ei8.Cortex.Subscriptions.Domain.Model;
 using ei8.Net.Http.Notifications;
 using ei8.Net.Http.Notifications.Interface;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ei8.Cortex.Subscriptions.Application.PushNotifications
@@ -13,40 +15,22 @@ namespace ei8.Cortex.Subscriptions.Application.PushNotifications
         private readonly IBrowserReceiverRepository repository;
         private readonly IPushNotificationService<WebPushNotificationPayload, WebPushReceiver> pushNotificationService;
         private readonly ILogger<WebPushNotificationApplicationService> logger;
+        private readonly INotificationTemplateApplicationService<WebPushNotificationPayload> templateApplicationService;
 
         public WebPushNotificationApplicationService(IBrowserReceiverRepository repository,
             IPushNotificationService<WebPushNotificationPayload, WebPushReceiver> pushNotificationService,
-            ILogger<WebPushNotificationApplicationService> logger)
+            ILogger<WebPushNotificationApplicationService> logger, 
+            INotificationTemplateApplicationService<WebPushNotificationPayload> templateApplicationService)
         {
             this.repository = repository;
             this.pushNotificationService = pushNotificationService;
             this.logger = logger;
+            this.templateApplicationService = templateApplicationService;
         }
 
-        public async Task NotifyReceiversForUserAsync(Guid userNeuronId, string avatarUrl)
+        public async Task NotifyReceiversForUserAsync(Guid userNeuronId, NotificationTemplate templateType, Dictionary<string, object> templateValues)
         {
-            var notification = new WebPushNotificationPayload()
-            {
-                Title = "Avatar update",
-                Body = $"Avatar changed: {avatarUrl}"
-            };
-
-            var receivers = await this.repository.GetByUserIdAsync(userNeuronId);
-
-            foreach (var r in receivers)
-            {
-                await this.TrySendWebNotification(notification, r);
-            }
-        }
-
-        public async Task NotifyReceiversForUserAsync(Guid userNeuronId, string title, string body)
-        {
-            var notification = new WebPushNotificationPayload()
-            {
-                Title = title,
-                Body = body
-            };
-
+            var notification = this.templateApplicationService.CreateNotificationPayload(templateType, templateValues);
             var receivers = await this.repository.GetByUserIdAsync(userNeuronId);
 
             foreach (var r in receivers)

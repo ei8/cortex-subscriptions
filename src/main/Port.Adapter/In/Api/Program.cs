@@ -22,6 +22,7 @@ builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 builder.Services.AddScoped<ISubscriptionApplicationService, SubscriptionApplicationService>();
 builder.Services.AddScoped<IPollingApplicationService, PollingApplicationService>();
 builder.Services.AddScoped<IPushNotificationApplicationService, WebPushNotificationApplicationService>();
+builder.Services.AddScoped<INotificationTemplateApplicationService<WebPushNotificationPayload>, WebPushTemplateApplicationService>();
 builder.Services.AddScoped<PushNotificationSettings>(sp =>
 {
     // inject push notification settings from environment variables
@@ -70,7 +71,7 @@ app.MapPost("/notify/{targetUserNeuronId}", async (Guid targetUserNeuronId, [Fro
 {
     foreach (var service in pushNotificationApplicationServices)
     {
-        await service.NotifyReceiversForUserAsync(targetUserNeuronId, payload.Title, payload.Body);
+        await service.NotifyReceiversForUserAsync(targetUserNeuronId, payload.TemplateType, payload.TemplateValues);
     }
 });
 

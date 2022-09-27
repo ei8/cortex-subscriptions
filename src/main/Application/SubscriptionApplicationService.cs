@@ -76,7 +76,10 @@ namespace ei8.Cortex.Subscriptions.Application
             {
                 foreach (var notificationService in this.notificationServices)
                 {
-                    await notificationService.NotifyReceiversForUserAsync(sub.UserNeuronId,  "Avatar update", $"Avatar changed: {avatarUrlSnapshot.Url}");
+                    await notificationService.NotifyReceiversForUserAsync(sub.UserNeuronId, NotificationTemplate.AvatarUpdated, new Dictionary<string, object>()
+                    {
+                        { NotificationTemplateParameters.AvatarUrl, avatarUrlSnapshot.Url }
+                    });
                 }
             }
         }
