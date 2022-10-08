@@ -1,5 +1,4 @@
 ﻿using ei8.Cortex.Subscriptions.Application;
-using ei8.Cortex.Subscriptions.Application.Interface.Service;
 using ei8.Cortex.Subscriptions.Domain.Model;
 
 namespace ei8.Cortex.Subscriptions.In.Api.BackgroundServices

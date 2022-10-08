@@ -32,7 +32,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
                 {
                     Id = receiver.Id,
                     Name = receiver.Name,
-                    UserNeuronId = receiver.User.UserNeuronId,
+                    UserNeuronId = receiver.UserNeuronId,
                     PushAuth = receiver.PushAuth,
                     PushEndpoint = receiver.PushEndpoint,
                     PushP256DH = receiver.PushP256DH,
@@ -61,7 +61,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Persistence.SQLite
                 PushAuth = b.PushAuth,
                 PushEndpoint = b.PushEndpoint,
                 PushP256DH = b.PushP256DH,
-                User = user
+                UserNeuronId = b.UserNeuronId
             }).ToList();
         }
     }

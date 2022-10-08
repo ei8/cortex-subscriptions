@@ -1,5 +1,4 @@
-﻿using ei8.Cortex.Subscriptions.Application.Interface.Service;
-using ei8.Cortex.Subscriptions.Application.Interface.Service.PushNotifications;
+﻿using ei8.Cortex.Subscriptions.Application.Notifications;
 using ei8.Cortex.Subscriptions.Common;
 using ei8.Cortex.Subscriptions.Common.Receivers;
 using ei8.Cortex.Subscriptions.Domain.Model;
@@ -16,20 +15,23 @@ namespace ei8.Cortex.Subscriptions.Application
         private readonly ISubscriptionRepository subscriptionRepository;
         private readonly IUserRepository userRepository;
         private readonly IBrowserReceiverRepository browserReceiverRepository;
-        private readonly IEnumerable<IPushNotificationApplicationService> notificationServices;
+        private readonly ISmtpReceiverRepository smtpReceiverRepository;
+        private readonly IEnumerable<INotificationApplicationService> notificationServices;
         private readonly ILogger<SubscriptionApplicationService> logger;
 
         public SubscriptionApplicationService(IAvatarUrlSnapshotRepository avatarUrlSnapshotRepository, 
             ISubscriptionRepository subscriptionRepository,
             IUserRepository userRepository,
             IBrowserReceiverRepository browserReceiverRepository,
-            IEnumerable<IPushNotificationApplicationService> notificationServices,
+            ISmtpReceiverRepository smtpReceiverRepository,
+            IEnumerable<INotificationApplicationService> notificationServices,
             ILogger<SubscriptionApplicationService> logger)
         {
             this.avatarUrlSnapshotRepository = avatarUrlSnapshotRepository;
             this.subscriptionRepository = subscriptionRepository;
             this.userRepository = userRepository;
             this.browserReceiverRepository = browserReceiverRepository;
+            this.smtpReceiverRepository = smtpReceiverRepository;
             this.notificationServices = notificationServices;
             this.logger = logger;
         }
@@ -49,11 +51,19 @@ namespace ei8.Cortex.Subscriptions.Application
                         PushAuth = br.PushAuth,
                         PushEndpoint = br.PushEndpoint,
                         PushP256DH = br.PushP256DH,
-                        User = user
+                        UserNeuronId = user.UserNeuronId
                     };
                     await this.browserReceiverRepository.AddAsync(receiver);
                     break;
-
+                case SmtpReceiverInfo er:
+                    var receiver2 = new SmtpReceiver()
+                    {
+                        Id = Guid.NewGuid(),
+                        Address = er.EmailAddress,
+                        UserNeuronId = user.UserNeuronId
+                    };
+                    await this.smtpReceiverRepository.AddAsync(receiver2);
+                    break;
                 default:
                     throw new NotSupportedException($"Unsupported receiver info type: {receiverInfo.GetType()}");
             }

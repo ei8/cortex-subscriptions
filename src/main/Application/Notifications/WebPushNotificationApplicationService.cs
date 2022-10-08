@@ -1,21 +1,20 @@
-﻿using ei8.Cortex.Subscriptions.Application.Interface.Service.PushNotifications;
-using ei8.Cortex.Subscriptions.Domain.Model;
+﻿using ei8.Cortex.Subscriptions.Domain.Model;
 using ei8.Net.Http.Notifications;
-using ei8.Net.Http.Notifications.Interface;
+using ei8.Net.Notifications;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace ei8.Cortex.Subscriptions.Application.PushNotifications
+namespace ei8.Cortex.Subscriptions.Application.Notifications
 {
-    public class WebPushNotificationApplicationService : IPushNotificationApplicationService
+    public class WebPushNotificationApplicationService : INotificationApplicationService
     {
         private readonly IBrowserReceiverRepository repository;
-        private readonly IPushNotificationService<WebPushNotificationPayload, WebPushReceiver> pushNotificationService;
+        private readonly INotificationService<WebPushNotificationPayload, WebPushReceiver> pushNotificationService;
         private readonly ILogger<WebPushNotificationApplicationService> logger;
 
         public WebPushNotificationApplicationService(IBrowserReceiverRepository repository,
-            IPushNotificationService<WebPushNotificationPayload, WebPushReceiver> pushNotificationService,
+            INotificationService<WebPushNotificationPayload, WebPushReceiver> pushNotificationService,
             ILogger<WebPushNotificationApplicationService> logger)
         {
             this.repository = repository;
