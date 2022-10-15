@@ -1,6 +1,6 @@
-﻿using ei8.Cortex.Subscriptions.Application.Interface.Service;
-using ei8.Cortex.Subscriptions.Domain.Model;
+﻿using ei8.Cortex.Subscriptions.Domain.Model;
 using ei8.Net.Http.PayloadHashing;
+using ei8.Net.PayloadHashing;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

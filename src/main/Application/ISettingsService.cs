@@ -1,4 +1,5 @@
-﻿using ei8.Net.Http.Notifications;
+﻿using ei8.Net.Email.Smtp.Notifications;
+using ei8.Net.Http.Notifications;
 
 namespace ei8.Cortex.Subscriptions.Application
 {
@@ -6,7 +7,8 @@ namespace ei8.Cortex.Subscriptions.Application
     {
         string DatabasePath { get; set; }
         int PollingIntervalSeconds { get; set; }
-
-        PushNotificationSettings PushSettings { get; set; }
+        WebPushNotificationSettings PushSettings { get; set; }
+        SmtpNotificationSettings SmtpSettings { get; set; }
+        string CortexGraphOutBaseUrl { get; }
     }
 }
