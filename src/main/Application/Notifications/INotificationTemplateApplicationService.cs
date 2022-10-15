@@ -1,5 +1,5 @@
 ﻿using ei8.Cortex.Subscriptions.Common;
-using ei8.Net.Http.Notifications.Interface;
+using ei8.Net.Notifications;
 using System.Collections.Generic;
 
 namespace ei8.Cortex.Subscriptions.Application.Interface.Service.PushNotifications

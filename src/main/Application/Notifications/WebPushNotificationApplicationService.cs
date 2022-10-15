@@ -20,7 +20,7 @@ namespace ei8.Cortex.Subscriptions.Application.Notifications
         public WebPushNotificationApplicationService(IBrowserReceiverRepository repository,
             INotificationService<WebPushNotificationPayload, WebPushReceiver> pushNotificationService,
             ILogger<WebPushNotificationApplicationService> logger,
-            INotificationTemplateApplicationService<WebPushNotificationPayload>)
+            INotificationTemplateApplicationService<WebPushNotificationPayload> templateApplicationService)
         {
             this.repository = repository;
             this.pushNotificationService = pushNotificationService;
