@@ -6,10 +6,16 @@ using System.Collections.Generic;
 
 namespace ei8.Cortex.Subscriptions.Application.Notifications
 {
-    public class SmtpNotificationTemplateApplicationService : INotificationTemplateApplicationService<SmtpNotificationPayload>
+    public class SmtpNotificationTemplateApplicationService : BaseTemplateApplicationService, INotificationTemplateApplicationService<SmtpNotificationPayload>
     {
+        public SmtpNotificationTemplateApplicationService(ISettingsService settingsService) : base(settingsService)
+        {
+        }
+
         public SmtpNotificationPayload CreateNotificationPayload(NotificationTemplate templateType, Dictionary<string, object> templateValues)
         {
+            base.SetDefaultAvatarUrlParameter(templateValues);
+
             object avatarUrl;
             object receiverName;
 
@@ -31,7 +37,7 @@ namespace ei8.Cortex.Subscriptions.Application.Notifications
                     return new SmtpNotificationPayload()
                     {
                         Subject = "New access request",
-                        Body = $"Hi {receiverName}, You have received a new request to access restricted neurons within your avatar. Click <a href=\"{avatarUrl}\">here</a> to manage the request."
+                        Body = $"Hi {receiverName}, You have received a new request to access restricted neurons within your avatar. Please visit {avatarUrl} to manage the request."
                     };
 
                 default:

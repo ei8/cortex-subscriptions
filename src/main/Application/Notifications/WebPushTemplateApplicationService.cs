@@ -1,4 +1,5 @@
 ﻿using ei8.Cortex.Subscriptions.Application.Interface.Service.PushNotifications;
+using ei8.Cortex.Subscriptions.Application.Notifications;
 using ei8.Cortex.Subscriptions.Common;
 using ei8.Net.Http.Notifications;
 using System;
@@ -6,10 +7,15 @@ using System.Collections.Generic;
 
 namespace ei8.Cortex.Subscriptions.Application.PushNotifications
 {
-    public class WebPushTemplateApplicationService : INotificationTemplateApplicationService<WebPushNotificationPayload>
+    public class WebPushTemplateApplicationService : BaseTemplateApplicationService, INotificationTemplateApplicationService<WebPushNotificationPayload>
     {
+        public WebPushTemplateApplicationService(ISettingsService settingsService) : base(settingsService)
+        {
+        }
+
         public WebPushNotificationPayload CreateNotificationPayload(NotificationTemplate templateType, Dictionary<string, object> templateValues)
         {
+            base.SetDefaultAvatarUrlParameter(templateValues);
             object avatarUrl;
 
             switch (templateType)

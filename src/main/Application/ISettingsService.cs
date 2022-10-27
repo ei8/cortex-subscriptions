@@ -10,5 +10,6 @@ namespace ei8.Cortex.Subscriptions.Application
         WebPushNotificationSettings PushSettings { get; set; }
         SmtpNotificationSettings SmtpSettings { get; set; }
         string CortexGraphOutBaseUrl { get; }
+        string AvatarUrl { get; set; }
     }
 }

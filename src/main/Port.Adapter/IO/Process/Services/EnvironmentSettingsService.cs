@@ -31,6 +31,7 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Process.Services
             };
 
             this.CortexGraphOutBaseUrl = config.GetSection(EnvironmentVariableKeys.SubscriptionsCortexGraphOutBaseUrl).Value;
+            this.AvatarUrl = config.GetSection(EnvironmentVariableKeys.SubscriptionsAvatarUrl).Value;
         }
 
         public string DatabasePath { get; set; }
@@ -38,5 +39,6 @@ namespace ei8.Cortex.Subscriptions.Port.Adapter.IO.Process.Services
         public WebPushNotificationSettings PushSettings { get; set; }
         public SmtpNotificationSettings SmtpSettings { get; set; }
         public string CortexGraphOutBaseUrl { get; private set; }
+        public string AvatarUrl { get; set; }
     }
 }
