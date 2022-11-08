@@ -2,7 +2,7 @@
 using ei8.Net.Notifications;
 using System.Collections.Generic;
 
-namespace ei8.Cortex.Subscriptions.Application.Interface.Service.PushNotifications
+namespace ei8.Cortex.Subscriptions.Application.PushNotifications
 {
     public interface INotificationTemplateApplicationService<out T> where T: INotificationPayload
     {

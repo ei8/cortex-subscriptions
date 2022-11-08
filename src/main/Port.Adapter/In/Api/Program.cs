@@ -1,8 +1,7 @@
 using ei8.Cortex.Graph.Client;
 using ei8.Cortex.Subscriptions.Application;
-using ei8.Cortex.Subscriptions.Application.Interface.Service.PushNotifications;
-using ei8.Cortex.Subscriptions.Application.Notifications;
 using ei8.Cortex.Subscriptions.Application.PushNotifications;
+using ei8.Cortex.Subscriptions.Application.Notifications;
 using ei8.Cortex.Subscriptions.Common;
 using ei8.Cortex.Subscriptions.Domain.Model;
 using ei8.Cortex.Subscriptions.In.Api.BackgroundServices;

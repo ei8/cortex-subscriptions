@@ -1,4 +1,4 @@
-﻿using ei8.Cortex.Subscriptions.Application.Interface.Service.PushNotifications;
+﻿using ei8.Cortex.Subscriptions.Application.PushNotifications;
 using ei8.Cortex.Subscriptions.Application.Notifications;
 using ei8.Cortex.Subscriptions.Common;
 using ei8.Net.Http.Notifications;
