@@ -15,5 +15,6 @@
         public const string SubscriptionsSmtpSenderUsernameKey = "SUBSCRIPTIONS_SMTP_SENDER_USERNAME";
         public const string SubscriptionsSmtpSenderPasswordKey = "SUBSCRIPTIONS_SMTP_SENDER_PASSWORD";
         public const string SubscriptionsCortexGraphOutBaseUrl = "SUBSCRIPTIONS_CORTEX_GRAPH_OUT_BASE_URL";
+        public const string SubscriptionsAvatarUrl = "SUBSCRIPTIONS_AVATAR_URL";
     }
 }

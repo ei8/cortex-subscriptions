@@ -1,9 +1,12 @@
 ﻿using ei8.Cortex.Graph.Client;
+using ei8.Cortex.Subscriptions.Application.PushNotifications;
+using ei8.Cortex.Subscriptions.Common;
 using ei8.Cortex.Subscriptions.Domain.Model;
 using ei8.Net.Email.Smtp.Notifications;
 using ei8.Net.Notifications;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,23 +19,26 @@ namespace ei8.Cortex.Subscriptions.Application.Notifications
         private readonly INeuronGraphQueryClient neuronGraphQueryClient;
         private readonly ISettingsService settingsService;
         private readonly ILogger<SmtpNotificationApplicationService> logger;
+        private readonly INotificationTemplateApplicationService<SmtpNotificationPayload> templateApplicationService;
 
         public SmtpNotificationApplicationService(
             ISmtpReceiverRepository repository,
             INotificationService<SmtpNotificationPayload, Net.Email.Smtp.Notifications.SmtpReceiver> notificationService,
             INeuronGraphQueryClient neuronGraphQueryClient,
             ISettingsService settingsService,
-            ILogger<SmtpNotificationApplicationService> logger
+            ILogger<SmtpNotificationApplicationService> logger,
+            INotificationTemplateApplicationService<SmtpNotificationPayload> templateApplicationService
             )
         {
             this.repository = repository;
             this.notificationService = notificationService;
             this.logger = logger;
+            this.templateApplicationService = templateApplicationService;
             this.neuronGraphQueryClient = neuronGraphQueryClient;
             this.settingsService = settingsService;
         }
 
-        public async Task NotifyReceiversForUserAsync(Guid userNeuronId, string avatarUrl)
+        public async Task NotifyReceiversForUserAsync(Guid userNeuronId, NotificationTemplate templateType, Dictionary<string, object> templateValues)
         {
             var queryResult = (await this.neuronGraphQueryClient.GetNeuronById(
                 this.settingsService.CortexGraphOutBaseUrl + "/",
@@ -41,12 +47,9 @@ namespace ei8.Cortex.Subscriptions.Application.Notifications
                 ));
             var receiverName = queryResult.Neurons.FirstOrDefault()?.Tag;
 
-            var notification = new SmtpNotificationPayload()
-            {
-                Subject = "Avatar update",
-                Body = $"Hi {receiverName}, Avatar changed: {avatarUrl}"
-            };
+            templateValues.Add(NotificationTemplateParameters.ReceiverName, receiverName);
 
+            var notification = this.templateApplicationService.CreateNotificationPayload(templateType, templateValues);
             var receivers = await this.repository.GetByUserIdAsync(userNeuronId);
 
             foreach (var r in receivers)
@@ -54,6 +57,7 @@ namespace ei8.Cortex.Subscriptions.Application.Notifications
                 await this.TrySendSmtpNotification(notification, r, receiverName);
             }
         }
+
         private async Task TrySendSmtpNotification(SmtpNotificationPayload notification, Domain.Model.SmtpReceiver receiver, string receiverName)
         {
             try

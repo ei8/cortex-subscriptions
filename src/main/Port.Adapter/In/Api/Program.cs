@@ -1,5 +1,6 @@
 using ei8.Cortex.Graph.Client;
 using ei8.Cortex.Subscriptions.Application;
+using ei8.Cortex.Subscriptions.Application.PushNotifications;
 using ei8.Cortex.Subscriptions.Application.Notifications;
 using ei8.Cortex.Subscriptions.Common;
 using ei8.Cortex.Subscriptions.Domain.Model;
@@ -10,6 +11,7 @@ using ei8.Net.Email;
 using ei8.Net.Email.Smtp.Notifications;
 using ei8.Net.Http;
 using ei8.Net.Http.Notifications;
+using Microsoft.AspNetCore.Mvc;
 using neurUL.Common.Http;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +26,7 @@ builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 builder.Services.AddScoped<ISubscriptionApplicationService, SubscriptionApplicationService>();
 builder.Services.AddScoped<IPollingApplicationService, PollingApplicationService>();
 builder.Services.AddScoped<INotificationApplicationService, WebPushNotificationApplicationService>();
+builder.Services.AddScoped<INotificationApplicationService, SmtpNotificationApplicationService>();
 builder.Services.AddScoped<IRequestProvider>(sp =>
                 {
                     var rp = new RequestProvider();
@@ -31,7 +34,9 @@ builder.Services.AddScoped<IRequestProvider>(sp =>
                     return rp;
                 });
 builder.Services.AddScoped<INeuronGraphQueryClient, HttpNeuronGraphQueryClient>();
-builder.Services.AddScoped<INotificationApplicationService, SmtpNotificationApplicationService>();
+builder.Services.AddScoped<INotificationTemplateApplicationService<WebPushNotificationPayload>, WebPushTemplateApplicationService>();
+builder.Services.AddScoped<INotificationTemplateApplicationService<SmtpNotificationPayload>, SmtpNotificationTemplateApplicationService>();
+
 builder.Services.AddScoped<WebPushNotificationSettings>(sp =>
 {
     // inject push notification settings from environment variables
@@ -91,6 +96,16 @@ app.MapPost("/subscriptions/receivers/{receiverType}", async (string receiverTyp
         );
 
     return requestResult == null ? Results.Ok() : Results.Problem(requestResult.ToString());
+});
+
+app.MapPost("/notify/{targetUserNeuronId}", async (Guid targetUserNeuronId, 
+    [FromBody] NotificationPayloadRequest payload, 
+    IEnumerable<INotificationApplicationService> pushNotificationApplicationServices) =>
+{
+    foreach (var service in pushNotificationApplicationServices)
+    {
+        await service.NotifyReceiversForUserAsync(targetUserNeuronId, payload.TemplateType, payload.TemplateValues);
+    }
 });
 
 app.Run();
